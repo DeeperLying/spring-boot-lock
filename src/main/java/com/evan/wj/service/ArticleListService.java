@@ -15,4 +15,17 @@ public class ArticleListService {
     public List<ArticleList> getArticleList() {
         return articleListdao.findAll();
     }
+
+    public int save(ArticleList articleList) {
+        String title = articleList.getTitle();
+        String author = articleList.getAuthor();
+        String date = articleList.getDate();
+        String text = articleList.getText();
+        System.out.print(title);
+        System.out.print(author);
+        System.out.print(date);
+        System.out.print(text);
+        // return 1;
+        return articleListdao.saveActicle(title, date, author, text);
+    }
 }
