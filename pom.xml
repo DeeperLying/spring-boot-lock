@@ -124,6 +124,18 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.6</version>
         </dependency>
+
+        <!-- Spring Boot Web 捕获异常 依赖 核心 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!-- Spring Boot Test 捕获异常 依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     <properties>
         <java.version>1.8</java.version>
