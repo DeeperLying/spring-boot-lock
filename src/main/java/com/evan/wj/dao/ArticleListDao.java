@@ -1,5 +1,6 @@
 package com.evan.wj.dao;
 
+import com.evan.wj.pojo.Article;
 import com.evan.wj.pojo.ArticleList;
 import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Map;
 
 public interface ArticleListDao extends JpaRepository<ArticleList, Integer> {
     List<ArticleList> findAll();
@@ -16,4 +18,7 @@ public interface ArticleListDao extends JpaRepository<ArticleList, Integer> {
     @Modifying
     @Query(value = "insert into articleList(title,date,author,text) values (?1, ?2, ?3, ?4)", nativeQuery = true)
     int saveActicle(@Param("title") String title, @Param("date") String date, @Param("author") String author, @Param("text") String text);
+
+    @Query(value = "select * from articleList where title=?1", nativeQuery = true)
+    ArticleList findbyArticleTitle(@Param("title") String name);
 }
