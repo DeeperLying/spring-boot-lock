@@ -5,10 +5,9 @@ import com.evan.wj.result.Result;
 import com.evan.wj.service.ArticleListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 public class ArticleListController {
@@ -31,4 +30,14 @@ public class ArticleListController {
             return new Result(400);
         }
     }
+
+    @CrossOrigin
+    @GetMapping(value = "api/getArticleList")
+    @ResponseBody
+    public Result getArticleList(@RequestParam("pageSize") int pageSize, @RequestParam("currentPage") int currentPage) {
+        int startIndex = currentPage * pageSize;
+        List<ArticleList> articleListList = articleListService.findByArticleList(startIndex, pageSize);
+        return new Result(200, articleListList);
+    }
+
 }

@@ -20,6 +20,9 @@ public interface ArticleDao extends JpaRepository<Article, Integer> {
     int saveActicle(@Param("id") int id,@Param("title") String title,@Param("date") String date,@Param("author") String author,@Param("text") String text,@Param("textleng") String textlengt);
 
     // 写在这里没办法直接注入实体类ArticleList
-    @Query(value = "select * from articleList where title=?1", nativeQuery = true)
-    Map<String, String> findByArticleTitle(@Param("title") String name);
+    // @Query(value = "select * from articleList where title=?1", nativeQuery = true)
+    // Map<String, String> findByArticleTitle(@Param("title") String name);
+
+    @Query(value = "SELECT * FROM article WHERE id=?1", nativeQuery = true)
+    Article findByArticle(@Param("id") int id);
 }

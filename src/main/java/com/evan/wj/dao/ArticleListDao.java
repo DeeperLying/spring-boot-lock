@@ -21,4 +21,7 @@ public interface ArticleListDao extends JpaRepository<ArticleList, Integer> {
 
     @Query(value = "select * from articleList where title=?1", nativeQuery = true)
     ArticleList findbyArticleTitle(@Param("title") String name);
+
+    @Query(value = "SELECT * FROM articleList ORDER BY id LIMIT ?1, ?2", nativeQuery = true)
+    List<ArticleList> findByArticleList(@Param("startIndex") int startIndex, @Param("overIndex") int overIndex);
 }

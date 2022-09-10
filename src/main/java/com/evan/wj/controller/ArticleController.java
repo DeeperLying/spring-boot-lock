@@ -4,12 +4,10 @@ import com.alibaba.fastjson.JSON;
 import com.evan.wj.pojo.Article;
 import com.evan.wj.result.Result;
 import com.evan.wj.service.ArticleService;
+import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class ArticleController {
@@ -31,5 +29,13 @@ public class ArticleController {
         } else  {
             return new Result(400);
         }
+    }
+
+    @CrossOrigin
+    @GetMapping(value = "api/getArticle")
+    @ResponseBody
+    public Result getArticle(@RequestParam("id") int id) {
+        Article article = articleService.getArticle(id);
+        return new Result(200, article);
     }
 }

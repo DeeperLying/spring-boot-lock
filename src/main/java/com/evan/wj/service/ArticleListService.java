@@ -23,4 +23,8 @@ public class ArticleListService {
         String text = articleList.getText();
         return articleListdao.saveActicle(title, date, author, text);
     }
+
+    public List<ArticleList> findByArticleList(int startIndex, int overIndex) {
+        return articleListdao.findByArticleList(startIndex, overIndex);
+    }
 }
