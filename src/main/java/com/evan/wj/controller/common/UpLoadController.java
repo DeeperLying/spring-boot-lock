@@ -5,10 +5,7 @@ import com.evan.wj.result.Result;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.ResourceUtils;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -21,7 +18,8 @@ import java.util.Map;
 public class UpLoadController {
 
     @CrossOrigin
-    @PostMapping(name = "api/upLoad")
+    @PostMapping(value = "api/upLoad")
+    // TODO @PostMapping(name = "api/upLoad") name属性会导致静态资源没办法访问
     @ResponseBody
     public Result upLoad(@RequestParam("file")MultipartFile file) {
         if(file.isEmpty()) {
@@ -49,7 +47,7 @@ public class UpLoadController {
             file.transferTo(saveFilePath);
             Map<String, String> data = new HashMap<String, String>();
             // "/static" + File.separator + "Images/" 之所以这样写就是希望它在特殊环境报错
-            String requestFilePath = "/static" + File.separator + "img/" + filename;
+            String requestFilePath = File.separator + "img/" + filename;
             data.put("url", requestFilePath);
             return new Result(200, "success", data);
         } catch (IOException e) {
