@@ -19,6 +19,12 @@ public class Result {
         this.data = data;
     }
 
+    public Result(int code, String errorMsg, Object data) {
+        this.code = code;
+        this.data = data;
+        this.errorMsg = errorMsg;
+    }
+
     public int getCode() {
         return code;
     }
