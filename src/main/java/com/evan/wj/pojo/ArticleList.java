@@ -1,61 +1,32 @@
 package com.evan.wj.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
+import org.joda.time.DateTime;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
+@Data
 @Entity
-@Table(name = "articlelist")
+@Table(name = "articleList")
 @JsonIgnoreProperties({"handler","hibernateLazyInitializer"})
-public class ArticleList {
+public class ArticleList implements Serializable {
 
     @Id
-    @GeneratedValue
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", columnDefinition = "INT(11) NOT NULL")
     int id;
 
+    @Column(name = "title", columnDefinition = "NOT NULL", length = 20)
     String title;
+
+    @Column(name = "date", columnDefinition = "NOT NULL")
     String date;
+
+    @Column(name = "author", length = 30, nullable = false)
     String author;
+
+    @Column(name = "text", length = 30, nullable = false, columnDefinition = "varchar(3000)")
     String text;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
 }

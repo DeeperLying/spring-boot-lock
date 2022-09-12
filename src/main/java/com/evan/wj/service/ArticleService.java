@@ -6,6 +6,7 @@ import com.evan.wj.dao.ArticleListDao;
 import com.evan.wj.pojo.Article;
 import com.evan.wj.pojo.ArticleList;
 import com.evan.wj.utils.MyException;
+import org.joda.time.DateTime;
 import org.omg.CORBA.Any;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,8 @@ public class ArticleService {
     }
 
     public Article getArticle(int id) {
-       return articleDao.findByArticle(id);
+       Article article  = articleDao.findByArticle(id);
+       System.out.println(JSON.toJSON(article));
+       return article;
     }
 }
