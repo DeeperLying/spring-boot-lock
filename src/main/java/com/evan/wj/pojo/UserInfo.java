@@ -9,18 +9,18 @@ import javax.persistence.*;
  * @date 2022/9/12 上午11:44
  */
 
-@Data
 @Entity
 @Table(name = "userInfo")
 public class UserInfo {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
     int id;
 
-    @Column(name="name1", length = 110)
+    @Column(name="name1", length = 10)
     String name1;
 
-    @Column(name="age", length = 11)
+    @Column(name="age", columnDefinition = "VARCHAR(20) NOT NULL")
     int age;
 
     @Column(name="sex", length = 12)

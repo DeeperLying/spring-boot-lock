@@ -18,15 +18,15 @@ public class ArticleList implements Serializable {
     @Column(name = "id", columnDefinition = "INT(11) NOT NULL")
     int id;
 
-    @Column(name = "title", columnDefinition = "NOT NULL", length = 20)
+    @Column(name = "title", columnDefinition = "VARCHAR(188) NOT NULL")
     String title;
 
-    @Column(name = "date", columnDefinition = "NOT NULL")
+    @Column(name = "date", nullable = false, unique = true, length=30)
     String date;
 
     @Column(name = "author", length = 30, nullable = false)
     String author;
 
-    @Column(name = "text", length = 30, nullable = false, columnDefinition = "varchar(3000)")
+    @Column(name = "text", length = 30, nullable = false)
     String text;
 }

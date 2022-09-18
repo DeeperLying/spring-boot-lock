@@ -18,33 +18,30 @@ public class Article implements Serializable {
     @Column(name = "id", columnDefinition = "INT(11) NOT NULL")
     int id;
 
-//    @Column(name = "title", columnDefinition = "NOT NULL", length = 31, unique = true)
-//    String title;
+    @Column(name = "title", columnDefinition = "VARCHAR(30) NOT NULL UNIQUE")
+    String title;
 
-    @OneToOne(cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "title", referencedColumnName = "title")
-    public ArticleList articleList;
+//    @OneToOne(cascade = CascadeType.REFRESH)
+//    @JoinColumn(name = "title", referencedColumnName = "title")
+//    public ArticleList articleList;
 
-    @Column(name = "date", columnDefinition = "NOT NULL")
+    @Column(name = "date", columnDefinition = "VARCHAR(22) NOT NULL")
     String date;
 
-    @Column(name = "author", columnDefinition = "NOT NULL", length = 101)
+    @Column(name = "author", columnDefinition = "VARCHAR(101) NOT NULL", length = 101)
     String author;
 
     @Column(name = "text", columnDefinition = "varchar(300) NOT NULL")
     String text;
 
-    @Column(name = "textleng", columnDefinition = "varchar(3000) NOT NULL")
+    @Column(name = "textleng", columnDefinition = "VARCHAR(100) NOT NULL")
     String textleng;
 
-    @Column(name = "textleng1", columnDefinition = "varchar(1000) NOT NULL")
-    String textleng1;
-
-    public String getTitle() {
-        return articleList.getTitle();
-    }
-
-    public void setTitle(String title) {
-        articleList.setTitle(title);
-    }
+//    public String getTitle() {
+//        return articleList.getTitle();
+//    }
+//
+//    public void setTitle(String title) {
+//        articleList.setTitle(title);
+//    }
 }
