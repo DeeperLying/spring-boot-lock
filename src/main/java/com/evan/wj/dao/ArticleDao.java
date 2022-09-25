@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,8 +20,14 @@ import java.util.Map;
 public interface ArticleDao extends JpaRepository<Article, Integer> {
     @Transactional
     @Modifying
-    @Query(value = "insert into article(id,title,date,author,text,textleng) values (?1,?2, ?3, ?4, ?5, ?6)", nativeQuery = true)
-    int saveActicle(@Param("id") int id, @Param("title") String title, @Param("date") String date, @Param("author") String author, @Param("text") String text, @Param("textleng") String textlengt);
+    @Query(value = "insert into article(id,title,date,author,text,introduction) values (null,?1,?2, ?3, ?4, ?5)", nativeQuery = true)
+    int saveActicle(
+        @Param("title") String title,
+        @Param("date") Date date,
+        @Param("author") String author,
+        @Param("text") String text,
+        @Param("introduction") String introduction
+    );
 
     // 写在这里没办法直接注入实体类ArticleList
     // @Query(value = "select * from articleList where title=?1", nativeQuery = true)
@@ -28,4 +35,7 @@ public interface ArticleDao extends JpaRepository<Article, Integer> {
 
     @Query(value = "SELECT * FROM article WHERE id=?1", nativeQuery = true)
     Article findByArticle(@Param("id") int id);
+
+    @Query(value = "SELECT id,author,date,introduction,title,text FROM article ORDER BY id LIMIT ?1, ?2", nativeQuery = true)
+    List<Article> findByArticleList(@Param("startIndex") int startIndex, @Param("overIndex") int overIndex);
 }

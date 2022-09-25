@@ -31,13 +31,4 @@ public class ArticleListController {
         }
     }
 
-    @CrossOrigin
-    @GetMapping(value = "api/getArticleList")
-    @ResponseBody
-    public Result getArticleList(@RequestParam("pageSize") int pageSize, @RequestParam("currentPage") int currentPage) {
-        int startIndex = currentPage * pageSize;
-        List<ArticleList> articleListList = articleListService.findByArticleList(startIndex, pageSize);
-        return new Result(200, articleListList);
-    }
-
 }

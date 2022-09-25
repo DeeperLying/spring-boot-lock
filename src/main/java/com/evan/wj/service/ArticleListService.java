@@ -20,7 +20,7 @@ public class ArticleListService {
     public int save(ArticleList articleList) {
         String title = articleList.getTitle();
         String author = articleList.getAuthor();
-        String date = articleList.getDate();
+        Long date = articleList.getDate();
         String text = articleList.getText();
         return articleListdao.saveActicle(title, date, author, text);
     }

@@ -20,7 +20,7 @@ public interface ArticleListDao extends JpaRepository<ArticleList, Integer> {
     @Transactional
     @Modifying
     @Query(value = "insert into article_list(title,date,author,text) values (?1, ?2, ?3, ?4)", nativeQuery = true)
-    int saveActicle(@Param("title") String title, @Param("date") String date, @Param("author") String author, @Param("text") String text);
+    int saveActicle(@Param("title") String title, @Param("date") Long date, @Param("author") String author, @Param("text") String text);
 
     @Query(value = "select * from article_list where title=?1", nativeQuery = true)
     ArticleList findbyArticleTitle(@Param("title") String name);

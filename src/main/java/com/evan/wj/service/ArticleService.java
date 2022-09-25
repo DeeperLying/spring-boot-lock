@@ -11,9 +11,7 @@ import org.omg.CORBA.Any;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class ArticleService {
@@ -22,26 +20,32 @@ public class ArticleService {
     @Autowired
     ArticleListDao articleListDao;
     public int saveArticle(Article article) {
-        ArticleList articleList =  articleListDao.findbyArticleTitle(article.getTitle());
-        if (articleList == null) {
-            throw new MyException(412, "该文章没有写简介");
-        }
-        int id =articleList.getId();
         String title = article.getTitle();
         String author = article.getAuthor();
-        String date = article.getDate();
+        Date date = article.getDate();
         String text = article.getText();
-        String textleng = article.getTextleng();
-        if (articleList != null) {
-            return articleDao.saveActicle(id, title, date, author, text, textleng);
-        } else {
-            return 0;
-        }
+        String introduction = article.getIntroduction();
+            return articleDao.saveActicle(title, date, author, text, introduction);
     }
 
     public Article getArticle(int id) {
        Article article  = articleDao.findByArticle(id);
        System.out.println(JSON.toJSON(article));
        return article;
+    }
+
+    public List<Map> findByArticleList(int startIndex, int overIndex) {
+        List<Article> articleList =  articleDao.findByArticleList(startIndex, overIndex);
+        List<Map> result = new ArrayList<>();
+        for (Article article: articleList) {
+            Map item = new HashMap<String,Object>();
+            item.put("id", article.getId());
+            item.put("author", article.getAuthor());
+            item.put("date", article.getDate());
+            item.put("title", article.getTitle());
+            item.put("introduction", article.getIntroduction());
+            result.add(item);
+        }
+        return result;
     }
 }

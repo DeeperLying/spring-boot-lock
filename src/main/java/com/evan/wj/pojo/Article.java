@@ -1,11 +1,14 @@
 package com.evan.wj.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import org.joda.time.DateTime;
+import org.w3c.dom.Text;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Data
 @Entity
@@ -21,27 +24,12 @@ public class Article implements Serializable {
     @Column(name = "title", columnDefinition = "VARCHAR(30) NOT NULL UNIQUE")
     String title;
 
-//    @OneToOne(cascade = CascadeType.REFRESH)
-//    @JoinColumn(name = "title", referencedColumnName = "title")
-//    public ArticleList articleList;
-
-    @Column(name = "date", columnDefinition = "VARCHAR(22) NOT NULL")
-    String date;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    Date date;
 
     @Column(name = "author", columnDefinition = "VARCHAR(101) NOT NULL", length = 101)
     String author;
 
-    @Column(name = "text", columnDefinition = "varchar(300) NOT NULL")
     String text;
-
-    @Column(name = "textleng", columnDefinition = "VARCHAR(100) NOT NULL")
-    String textleng;
-
-//    public String getTitle() {
-//        return articleList.getTitle();
-//    }
-//
-//    public void setTitle(String title) {
-//        articleList.setTitle(title);
-//    }
+    String introduction;
 }

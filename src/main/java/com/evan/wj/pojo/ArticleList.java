@@ -22,7 +22,7 @@ public class ArticleList implements Serializable {
     String title;
 
     @Column(name = "date", nullable = false, unique = true, length=30)
-    String date;
+    Long date;
 
     @Column(name = "author", length = 30, nullable = false)
     String author;
