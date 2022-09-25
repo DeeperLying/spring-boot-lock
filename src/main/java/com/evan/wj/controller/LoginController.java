@@ -5,19 +5,16 @@ import com.evan.wj.pojo.ArticleList;
 import com.evan.wj.result.Result;
 import com.evan.wj.service.ArticleListService;
 import com.evan.wj.service.UserService;
+import com.evan.wj.utils.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.evan.wj.pojo.User;
 import org.springframework.web.util.HtmlUtils;
 
-import java.util.Arrays;
+import javax.servlet.http.HttpSession;
 import java.util.List;
-import java.util.Objects;
 
 @Controller
 public class LoginController {
@@ -27,6 +24,9 @@ public class LoginController {
 
     @Autowired
     ArticleListService articleListService;
+
+    @Autowired
+    EmailService emailService;
 
     @CrossOrigin
     @PostMapping(value = "api/login")
@@ -51,4 +51,28 @@ public class LoginController {
             return new Result(400);
         }
     }
+
+    @CrossOrigin(allowCredentials = "true")
+    @GetMapping(value = "api/sendEmail")
+    @ResponseBody
+    public Result sendEmail(@RequestParam("email") String email, HttpSession httpSession) {
+        boolean isSendEmail = emailService.sendEmail(email, httpSession);
+        if (isSendEmail) {
+            return new Result(200, "success");
+        }
+        return new Result(400, "邮件发送失败");
+    }
+
+    @CrossOrigin(allowCredentials = "true")
+    @PostMapping(value = "api/register")
+    @ResponseBody
+    public Result sendEmail(@RequestBody User user, HttpSession httpSession) {
+        boolean isRegister = userService.register(user, httpSession);
+
+        if (isRegister) {
+            return new Result(200, "success");
+        }
+        return new Result(400, "注册失败");
+    }
+
 }

@@ -15,7 +15,10 @@ public class User {
     @Column(name = "id")
     int id;
 
-    @Column(name = "username", length = 20)
     String username;
     String password;
+    String email;
+
+    @Transient
+    String code;
 }
