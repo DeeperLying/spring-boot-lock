@@ -35,8 +35,6 @@ public class LoginController {
 
         List<ArticleList> articleListList = articleListService.getArticleList();
 
-        System.out.println(JSON.toJSONString(articleListList));
-
         String userName =  requestUser.getUsername();
         String password = requestUser.getPassword();
         userName = HtmlUtils.htmlEscape(userName);

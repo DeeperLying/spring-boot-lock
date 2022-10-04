@@ -2,12 +2,14 @@ package com.evan.wj.utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author SuperLee
@@ -20,6 +22,9 @@ public class EmailService {
     @Autowired
     JavaMailSender javaMailSender;
 
+    @Autowired
+    StringRedisTemplate stringRedisTemplate;
+
     //application.properties中已配置的值
     @Value("${spring.mail.username}")
     private String sendEmailFrom;
@@ -31,6 +36,9 @@ public class EmailService {
         String code = randomCode();
         httpSession.setAttribute("email", email);
         httpSession.setAttribute("code", code);
+
+        stringRedisTemplate.opsForValue().set(email, code, 2*60, TimeUnit.SECONDS);
+
         System.out.println(email);
         System.out.println(code);
         simpleMailMessage.setTo(email);
