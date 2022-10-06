@@ -37,7 +37,7 @@ public class ArticleController {
         }
     }
 
-    @CrossOrigin
+    @CrossOrigin(allowCredentials = "true")
     @GetMapping(value = "api/getArticle")
     @ResponseBody
     public Result getArticle(@RequestParam("id") int id) {
@@ -45,7 +45,7 @@ public class ArticleController {
         return new Result(200, article);
     }
 
-    @CrossOrigin
+    @CrossOrigin(allowCredentials = "true")
     @GetMapping(value = "api/getArticleList")
     @ResponseBody
     public Result getArticleList(@RequestParam("pageSize") int pageSize, @RequestParam("currentPage") int currentPage) {
