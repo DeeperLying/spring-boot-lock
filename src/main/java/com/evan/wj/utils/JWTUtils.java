@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -35,15 +36,18 @@ public class JWTUtils {
         return token;
     }
 
-    public static boolean handlerJWTVerifier(String token) {
+    public static Map<String, String> handlerJWTVerifier(String token) {
+        Map<String, String> result = new HashMap<>();
         try {
             JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(secret)).build();
             DecodedJWT decodedJWT =  jwtVerifier.verify(token);
-            return true;
+            result.put("isToken", "true");
+            return result;
         } catch (TokenExpiredException tokenExpiredException) {
-            System.out.println(tokenExpiredException);
+            result.put("isToken", "false");
+            result.put("errorMsg", tokenExpiredException.toString());
+            return result;
         }
-        return false;
     }
 
     public Date expireDate() {

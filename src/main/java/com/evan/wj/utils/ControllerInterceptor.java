@@ -7,7 +7,9 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,27 +21,25 @@ public class ControllerInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        System.out.println("Request URL: " + request.getRequestURL());
-        System.out.println("拦截器");
         String token = request.getHeader("Authentication");
         String origin = request.getHeader("Origin");
-        System.out.println("auth:"+ token);
         if (token != null) {
-            boolean isToken = JWTUtils.handlerJWTVerifier(token);
-            System.out.println(isToken);
-            if (!isToken) {
+            Map<String, String> tokenVerify = JWTUtils.handlerJWTVerifier(token);
+            String isToken = tokenVerify.get("isToken");
+            if (!Boolean.parseBoolean(isToken)) {
                 try {
-                    Map<String, String> data = new HashMap<String, String>();
-                    data.put("data", "拦截器跨域");
+                    Map<String, String> data = new HashMap<>();
+                    data.put("errorMsg", tokenVerify.get("errorMsg"));
+                    data.put("code", "401");
                     response.addHeader("Access-Control-Allow-Credentials", "true");
                     response.addHeader("Access-Control-Allow-Origin", origin);
                     response.addHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
                     response.addHeader("Access-Control-Allow-Headers", "Content-Type,X-CAF-Authorization-Token,sessionToken,X-TOKEN");
                     response.setContentType("application/json; charset=utf-8");
+                    response.setStatus(401);
                     PrintWriter writer = response.getWriter();
                     writer.print(JSONObject.toJSONString(data));
                     writer.close();
-                    response.flushBuffer();
                     return false;
                 } catch (Exception exception) {
                     System.out.println(exception);
