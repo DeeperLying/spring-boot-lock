@@ -29,26 +29,30 @@ public class ControllerInterceptor implements HandlerInterceptor {
         String token = request.getHeader("Authentication");
         String origin = request.getHeader("Origin");
 
+        System.out.println(request.getMethod());
+        System.out.println(token);
+        System.out.println(token == null);
         // 如果是OPTIONS则结束请求
         if (HttpMethod.OPTIONS.toString().equals(request.getMethod())) {
             response.setHeader("Access-Control-Allow-Origin", request.getHeader("origin"));
             response.setHeader("Access-Control-Allow-Credentials", "true");
             response.setHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS");
-            response.setHeader("Access-Control-Max-Age", "86400");
+            response.setHeader("Access-Control-Max-Age", "1800");
             response.setHeader("Access-Control-Allow-Headers", "Authentication");
             response.setStatus(HttpStatus.NO_CONTENT.value());
             return false;
         }
 
-        if (!token.equals("undefined")) {
-            Map<String, String> tokenVerify = JWTUtils.handlerJWTVerifier(token);
-            String isToken = tokenVerify.get("isToken");
-            if (!Boolean.parseBoolean(isToken)) {
-                return result(response, origin);
-            }
-            return true;
+        if ("undefined".equals(token) || token == null) {
+            return result(response, origin);
         }
-        return result(response, origin);
+        Map<String, String> tokenVerify = JWTUtils.handlerJWTVerifier(token);
+        String isToken = tokenVerify.get("isToken");
+        if (!Boolean.parseBoolean(isToken)) {
+            return result(response, origin);
+        }
+        return true;
+
     }
 
     private boolean result(HttpServletResponse response, String origin) {
