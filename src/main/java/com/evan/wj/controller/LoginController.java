@@ -10,12 +10,15 @@ import com.evan.wj.service.UserService;
 import com.evan.wj.utils.EmailService;
 import com.evan.wj.utils.JWTUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import com.evan.wj.pojo.User;
 import org.springframework.web.util.HtmlUtils;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
@@ -39,7 +42,7 @@ public class LoginController {
     @CrossOrigin(allowCredentials = "true")
     @PostMapping(value = "api/login")
     @ResponseBody
-    public Result Login(@RequestBody User requestUser) {
+    public ResponseEntity<Map> Login(HttpServletResponse response, @RequestBody User requestUser) {
 
         List<ArticleList> articleListList = articleListService.getArticleList();
 
@@ -47,13 +50,18 @@ public class LoginController {
         String password = requestUser.getPassword();
         userName = HtmlUtils.htmlEscape(userName);
         User user = userService.get(userName, password);
+        Map<String, Object> data = new HashMap<>();
         if (user != null) {
             String token = jwtUtils.createToken(user);
-            Map<String, String> data = new HashMap<>();
             data.put("token", token);
-            return new Result(200, data);
+            // return new Result(200, data);
+            return new ResponseEntity<Map>(data, HttpStatus.OK);
         } else {
-            return new Result(400);
+            Map<String, Object> dataList = new HashMap<>();
+            data.put("errorMessage", "用户名或密码错误");
+            data.put("data", dataList);
+            return new ResponseEntity<Map>(data, HttpStatus.BAD_REQUEST);
+            // return new Result(400);
         }
     }
 
