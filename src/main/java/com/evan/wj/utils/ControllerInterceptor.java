@@ -38,7 +38,7 @@ public class ControllerInterceptor implements HandlerInterceptor {
             response.setHeader("Access-Control-Allow-Credentials", "true");
             response.setHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS");
             response.setHeader("Access-Control-Max-Age", "1800");
-            response.setHeader("Access-Control-Allow-Headers", "Authentication");
+            response.setHeader("Access-Control-Allow-Headers", "Authentication, content-type");
             response.setStatus(HttpStatus.NO_CONTENT.value());
             return false;
         }
@@ -49,7 +49,7 @@ public class ControllerInterceptor implements HandlerInterceptor {
         Map<String, String> tokenVerify = JWTUtils.handlerJWTVerifier(token);
         String isToken = tokenVerify.get("isToken");
         if (!Boolean.parseBoolean(isToken)) {
-            return result(response, origin);
+            return result(response, origin, tokenVerify.get("errorMsg"));
         }
         return true;
 
@@ -70,6 +70,27 @@ public class ControllerInterceptor implements HandlerInterceptor {
         writer = response.getWriter();
         writer.print(JSONObject.toJSONString(data));
         writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private boolean result(HttpServletResponse response, String origin, String message) {
+        try {
+            Map<String, String> data = new HashMap<>();
+            data.put("errorMsg", message);
+            data.put("code", "401");
+            response.addHeader("Access-Control-Allow-Credentials", "true");
+            response.addHeader("Access-Control-Allow-Origin", origin);
+            response.addHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
+            response.addHeader("Access-Control-Allow-Headers", "Content-Type,X-CAF-Authorization-Token,sessionToken,X-TOKEN");
+            response.setContentType("application/json; charset=utf-8");
+            response.setStatus(401);
+            PrintWriter writer = null;
+            writer = response.getWriter();
+            writer.print(JSONObject.toJSONString(data));
+            writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
