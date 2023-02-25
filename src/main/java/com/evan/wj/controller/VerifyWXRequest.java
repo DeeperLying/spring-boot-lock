@@ -1,5 +1,6 @@
 package com.evan.wj.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.evan.wj.result.Result;
 import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,8 @@ import java.io.PrintWriter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author SuperLee
@@ -42,6 +45,8 @@ public class VerifyWXRequest {
         System.out.println(timestamp);
         System.out.println(nonce);
         System.out.println(echostr);
+        response.addHeader("Accept-Language", "en,zh-CN;q=0.9,zh;q=0.8");
+        response.setContentType("application/json; charset=utf-8");
         PrintWriter out = null;
         try {
             out = response.getWriter();
@@ -52,6 +57,12 @@ public class VerifyWXRequest {
         // 请求校验，若校验成功则原样返回echostr，表示接入成功，否则接入失败.
         if (checkSignature(signature, timestamp, nonce)) {
             out.print(echostr);
+        } else {
+            //
+            Map<String, Object> result = new HashMap<>();
+            result.put("code", 200);
+            result.put("errorMsg", "数据不匹配");
+            out.print(JSONObject.toJSONString(result));
         }
 
         out.close();
