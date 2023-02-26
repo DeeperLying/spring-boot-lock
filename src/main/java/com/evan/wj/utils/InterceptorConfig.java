@@ -16,6 +16,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
         registry.addInterceptor(new ControllerInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns("/api/wxRequest")
+                .excludePathPatterns("/api/getWxUserAuthInfo")
                 .excludePathPatterns("/api/login");
     }
 }
