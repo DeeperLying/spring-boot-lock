@@ -23,10 +23,10 @@ public class RestTemplateConfig {
         SimpleClientHttpRequestFactory clientHttpRequestFactory
                 = new SimpleClientHttpRequestFactory();
         // 连接超时设置 10s
-        clientHttpRequestFactory.setConnectTimeout(10_000);
+        clientHttpRequestFactory.setConnectTimeout(60_000);
 
         // 读取超时设置 10s
-        clientHttpRequestFactory.setReadTimeout(10_000);
+        clientHttpRequestFactory.setReadTimeout(60_000);
         return clientHttpRequestFactory;
     }
 }
