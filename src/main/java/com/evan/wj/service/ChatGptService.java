@@ -30,7 +30,7 @@ import java.util.Map;
 @Service
 public class ChatGptService {
     private final int TIMEOUT = 30000;
-    private final String OPENAPI_TOKEN = "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";
+    private final String OPENAPI_TOKEN = "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";
 
     @Autowired
     RestTemplateConfig restTemplateConfig;
@@ -53,7 +53,11 @@ public class ChatGptService {
             ResponseEntity<String> result = restTemplateConfig.customRestTemplate.exchange(baseUrl, HttpMethod.POST, requestEntity,  String.class);
             return result.getBody();
         } catch (HttpClientErrorException e) {
+            System.out.println(e);
             System.out.println(e.getResponseBodyAsString());
+            if ("Unauthorizederror".equals(e)) {
+                return "chatGpt token 过期";
+            }
             return e.getResponseBodyAsString();
         }
     }
