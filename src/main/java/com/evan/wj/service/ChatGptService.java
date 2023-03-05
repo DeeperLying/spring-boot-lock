@@ -30,7 +30,7 @@ import java.util.Map;
 @Service
 public class ChatGptService {
     private final int TIMEOUT = 30000;
-    private final String OPENAPI_TOKEN = "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";
+    private final String OPENAPI_TOKEN = "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";
 
     @Autowired
     RestTemplateConfig restTemplateConfig;
