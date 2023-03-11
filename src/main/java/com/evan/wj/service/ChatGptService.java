@@ -53,8 +53,7 @@ public class ChatGptService {
             ResponseEntity<String> result = restTemplateConfig.customRestTemplate.exchange(baseUrl, HttpMethod.POST, requestEntity,  String.class);
             return result.getBody();
         } catch (HttpClientErrorException e) {
-            System.out.println(e.getResponseBodyAsString());
-            return e.getResponseBodyAsString();
+            return !"null".equals(e) ? e.toString() : "";
         }
     }
 }
