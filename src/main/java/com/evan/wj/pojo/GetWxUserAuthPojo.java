@@ -11,10 +11,10 @@ import lombok.Data;
 public class GetWxUserAuthPojo {
     public GetWxUserAuthPojo() {}
 
-    public GetWxUserAuthPojo(String accessToken,Long expiresIn,String refreshToken, String openid,String scope) {
-        this.accessToken = accessToken;
-        this.expiresIn = expiresIn;
-        this.refreshToken = refreshToken;
+    public GetWxUserAuthPojo(String access_token,Long expiresIn,String refreshToken, String openid,String scope) {
+        this.access_token = access_token;
+        this.expires_in = expiresIn;
+        this.refresh_token = refreshToken;
         this.openid = openid;
         this.scope = scope;
     }
@@ -24,11 +24,11 @@ public class GetWxUserAuthPojo {
         this.errmsg = errmsg;
     }
 
-    String accessToken;
+    String access_token;
 
-    long expiresIn;
+    long expires_in;
 
-    String refreshToken;
+    String refresh_token;
 
     String openid;
 

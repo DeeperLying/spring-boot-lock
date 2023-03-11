@@ -28,7 +28,6 @@ public class ChatGpt {
 
     @GetMapping(value = "/chat")
     public Result chat(@RequestParam(value = "value", required = true) String value, HttpServletResponse response) {
-        System.out.println(value);
         String result =  chatGptService.openChat(value);
         response.addHeader("Accept-Language", "en,zh-CN;q=0.9,zh;q=0.8");
         response.setHeader("Content-Type","application/json;charset=UTF-8");

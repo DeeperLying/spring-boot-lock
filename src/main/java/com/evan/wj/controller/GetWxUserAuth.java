@@ -42,7 +42,6 @@ public class GetWxUserAuth {
 
     @GetMapping(value = "/getWxUserAuthInfo")
     public Result getWxUserAuthInfo(@RequestParam(value = "code", required = true) String code) {
-        System.out.println(code);
         if (!code.equals(null)) {
             Map<String, String> params = new HashMap<>(3);
             params.put("appId", appId);
@@ -51,18 +50,16 @@ public class GetWxUserAuth {
             String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid={appId}&secret={appSecret}&code={code}&grant_type=authorization_code";
 
             GetWxUserAuthPojo result = customResultTypeRestTemplate.getForObject(url, GetWxUserAuthPojo.class, params);
-            System.out.println(result);
 
-            //System.out.println(result+"======================");
-//            System.out.println(result.getAccessToken()+"=========");
-//            if (result.getAccessToken() != null) {
-//                System.out.println("获取用户信息去啦～");
-//
-//                // getWeChatUserInfo.getWeChatSnsapiUserinfo();
-//                return new Result(200, "success");
-//            } else {
-//                return new Result(400, "code 错误");
-//            }
+            if (result.getAccess_token() != null) {
+                System.out.println("获取用户信息去啦～");
+                String accessToken = result.getAccess_token();
+                String openId = result.getOpenid();
+                getWeChatUserInfo.getWeChatSnsapiUserinfo(accessToken, openId);
+                return new Result(200, "success");
+            } else {
+                return new Result(400, "code 错误");
+            }
 
         }
 
