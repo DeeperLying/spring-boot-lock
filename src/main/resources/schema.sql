@@ -1,3 +1,4 @@
+$$$
 CREATE TABLE IF NOT EXISTS `user2TestTable`
 (
     `id`               int unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
@@ -13,5 +14,5 @@ CREATE TABLE IF NOT EXISTS `user2TestTable`
     KEY                `key_third_account_id` (`third_account_id`),
     KEY                `user_name` (`user_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4  COMMENT='用户登录表';
-
+$$$
  SELECT table_name FROM information_schema.TABLES WHERE table_name ='user2TestTable';
