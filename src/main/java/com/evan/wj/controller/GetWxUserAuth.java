@@ -1,16 +1,12 @@
 package com.evan.wj.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.evan.wj.result.Result;
-import com.evan.wj.service.GetWeChatUserInfo;
-import com.evan.wj.utils.JWTUtils;
+import com.evan.wj.service.GetWeChatUserInfoService;
 import com.evan.wj.utils.RestTemplateConfig;
 import com.evan.wj.pojo.GetWxUserAuthPojo;
-import org.apache.http.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
@@ -32,7 +28,7 @@ public class GetWxUserAuth {
     RestTemplate customResultTypeRestTemplate;
 
     @Autowired
-    GetWeChatUserInfo getWeChatUserInfo;
+    GetWeChatUserInfoService getWeChatUserInfo;
 
     @Value("${weChat.appId}")
     private String appId;

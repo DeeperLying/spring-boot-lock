@@ -2,6 +2,8 @@ package com.evan.wj.pojo;
 
 import lombok.Data;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.lang.reflect.Array;
 import java.util.List;
 
