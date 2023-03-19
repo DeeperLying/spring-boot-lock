@@ -1,9 +1,11 @@
 package com.evan.wj.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.evan.wj.dao.WeChatUserInfoDao;
 import com.evan.wj.pojo.WeChatUserInfoPojo;
 import com.evan.wj.utils.RestTemplateConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -35,10 +37,28 @@ public class GetWeChatUserInfoService {
         params.put("lang", "zh_CN");
         String path = "https://api.weixin.qq.com/sns/userinfo?access_token={access_token}&openid={openId}&lang={lang}";
         try {
-            WeChatUserInfoPojo result = customResultTypeRestTemplate.getForObject(path, WeChatUserInfoPojo.class,params);
+            String result = restTemplateConfig.customRestTemplate.getForObject(path, String.class,params);
             System.out.println(result+"=======success");
-//           int isSave =  weChatUserInfo.saveWeChatUserInfo(result);
-//           System.out.println(isSave + "=================save");
+            JSONObject resultObj = JSONObject.parseObject(result);
+            System.out.println(resultObj.get("openid")+"===========");
+            String openid = resultObj.get("openid").toString();
+            String nickname = resultObj.get("nickname").toString();
+            int sex = (int)resultObj.get("sex");
+            String city = resultObj.get("city").toString();
+            String province = resultObj.get("province").toString();
+            String country = resultObj.get("country").toString();
+            String headimgurl = resultObj.get("headimgurl").toString();
+            String privilege = resultObj.get("privilege").toString();
+            Object unionid = resultObj.get("unionid");
+            String unionidStr;
+            if ("".equals(resultObj.get("unionid")) || unionid == null){
+                System.out.println("空指针");
+                unionidStr = "";
+            } else {
+                unionidStr = resultObj.get("unionid").toString();
+            }
+           int isSave =  weChatUserInfoDao.saveWeChatUserInfo(openid,nickname, sex, city, province, country,headimgurl,privilege,unionidStr);
+           System.out.println(isSave + "=================save");
         }catch (HttpClientErrorException httpClientErrorException) {
             System.out.println(httpClientErrorException.getResponseBodyAsString());
         }

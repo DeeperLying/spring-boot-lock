@@ -1,7 +1,7 @@
 $$$
 CREATE TABLE IF NOT EXISTS `user_info`
 (
-    `id`               int unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+    `id`               int unsigned NOT NULL auto_increment COMMENT '主键ID',
     `bbsex`            int NOT NULL DEFAULT 0 COMMENT '测试更新字段是否成功',
     `third_account_id` varchar(128) NOT NULL DEFAULT '' COMMENT '第三方用户ID',
     `user_name`        varchar(64)  NOT NULL DEFAULT '' COMMENT '用户名',
@@ -17,8 +17,8 @@ CREATE TABLE IF NOT EXISTS `user_info`
 $$$
  SELECT table_name FROM information_schema.TABLES WHERE table_name ='user2TestTable'; $$$
 
-CREATE TABLE IF NOT EXISTS `weChat_user_info`(
-   id INT NOT NULL AUTO_INCREMENT COMMENT '主键',
+CREATE TABLE IF NOT EXISTS `we_chat_user_info`(
+   id INT NOT NULL auto_increment COMMENT '主键',
    openid CHAR(255) NOT NULL UNIQUE COMMENT 'openid用户唯一标识',
    nickname VARCHAR(600) NOT NULL DEFAULT'' COMMENT '用户名字',
    sex INT NOT NULL DEFAULT 0 COMMENT '性别',

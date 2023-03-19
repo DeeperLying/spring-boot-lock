@@ -1,9 +1,9 @@
 package com.evan.wj.pojo;
 
 import lombok.Data;
+import org.apache.commons.lang.StringUtils;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.lang.reflect.Array;
 import java.util.List;
 
@@ -12,7 +12,14 @@ import java.util.List;
  * @date 2023/3/11 下午4:19
  */
 @Data
+@Entity
+@Table(name = "weChatUserInfo")
 public class WeChatUserInfoPojo {
+
+    @Id
+    @GeneratedValue
+    @Column(name = "id")
+    int id;
 
     String openid;
 
@@ -30,11 +37,7 @@ public class WeChatUserInfoPojo {
 
     String headimgurl;
 
-    List<Object> privilege;
+    String privilege;
 
     String unionid;
-
-    long errcode;
-
-    String errmsg;
 }
