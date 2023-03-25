@@ -2,16 +2,16 @@ package com.evan.wj.result;
 
 public class Result {
     private int code;
-    private String errorMsg;
+    private String message;
     private Object data;
 
     public Result(int code) {
         this.code = code;
     }
 
-    public Result(int code, String errorMsg) {
+    public Result(int code, String message) {
         this.code = code;
-        this.errorMsg = errorMsg;
+        this.message = message;
     }
 
     public Result(int code, Object data) {
@@ -19,10 +19,10 @@ public class Result {
         this.data = data;
     }
 
-    public Result(int code, String errorMsg, Object data) {
+    public Result(int code, String message, Object data) {
         this.code = code;
         this.data = data;
-        this.errorMsg = errorMsg;
+        this.message = message;
     }
 
     public int getCode() {
@@ -33,12 +33,12 @@ public class Result {
         this.code = code;
     }
 
-    public String getErrorMsg() {
-        return errorMsg;
+    public String getMessage() {
+        return message;
     }
 
-    public void setErrorMsg(String errorMsg) {
-        this.errorMsg = errorMsg;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public Object getData() {

@@ -9,9 +9,24 @@ import lombok.Data;
 
 @Data
 public class GetWxUserAuthPojo {
+    public GetWxUserAuthPojo() {}
+
+    public GetWxUserAuthPojo(String access_token,Long expiresIn,String refreshToken, String openid,String scope) {
+        this.access_token = access_token;
+        this.expires_in = expiresIn;
+        this.refresh_token = refreshToken;
+        this.openid = openid;
+        this.scope = scope;
+    }
+
+    public GetWxUserAuthPojo(long errcode,String errmsg) {
+        this.errcode = errcode;
+        this.errmsg = errmsg;
+    }
+
     String access_token;
 
-    String expires_in;
+    long expires_in;
 
     String refresh_token;
 
@@ -19,7 +34,7 @@ public class GetWxUserAuthPojo {
 
     String scope;
 
-    Number errcode;
+    long errcode;
 
     String errmsg;
 }

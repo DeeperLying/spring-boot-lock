@@ -6,6 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.evan.wj.pojo.User;
+import com.evan.wj.pojo.WeChatUserInfoPojo;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +24,18 @@ import java.util.Map;
 public class JWTUtils {
 
     public static String secret="superLee";
+
+    public String createToken(WeChatUserInfoPojo weChatUserInfoPojo) {
+        String token = JWT.create()
+                .withIssuer("Lee")
+                .withSubject("Token")
+                .withAudience("client")
+                .withClaim("username", weChatUserInfoPojo.getNickname())
+                .withIssuedAt(new Date())
+                .withExpiresAt(expireDate())
+                .sign(Algorithm.HMAC256(secret));
+        return token;
+    }
 
     public String createToken(User user) {
         String token = JWT.create()
