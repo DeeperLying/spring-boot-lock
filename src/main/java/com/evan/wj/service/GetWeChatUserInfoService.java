@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.evan.wj.dao.WeChatUserInfoDao;
 import com.evan.wj.pojo.WeChatUserInfoPojo;
+import com.evan.wj.utils.JWTUtils;
 import com.evan.wj.utils.RestTemplateConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,9 +30,10 @@ public class GetWeChatUserInfoService {
     @Autowired
     WeChatUserInfoDao weChatUserInfoDao;
 
-    public void getWeChatSnsapiUserinfo(String access_token, String openId) {
-        System.out.println(access_token+"ppp++++++"+openId);
+    @Autowired
+    JWTUtils jwtUtils;
 
+    public Object getWeChatSnsapiUserinfo(String access_token, String openId) {
         Map params = new HashMap<String,Object>(3);
         params.put("access_token", access_token);
         params.put("openId", openId);
@@ -39,10 +41,9 @@ public class GetWeChatUserInfoService {
         String path = "https://api.weixin.qq.com/sns/userinfo?access_token={access_token}&openid={openId}&lang={lang}";
         try {
             Object result = customResultTypeRestTemplate.getForObject(path, Object.class,params);
-            System.out.println(result+"=======success");
             Map userInfo = (Map)result;
+            System.out.println(result + "userinfo");
             System.out.println(userInfo.get("openid"));
-            System.out.println(userInfo.get("privilege"));
             String openid = userInfo.get("openid").toString();
             String nickname = userInfo.get("nickname").toString();
             int sex = (int)userInfo.get("sex");
@@ -59,10 +60,38 @@ public class GetWeChatUserInfoService {
             } else {
                 unionidStr = userInfo.get("unionid").toString();
             }
-           int isSave =  weChatUserInfoDao.saveWeChatUserInfo(openid,nickname, sex, city, province, country,headimgurl,privilege,unionidStr);
-           System.out.println(isSave + "=================save");
-        }catch (HttpClientErrorException httpClientErrorException) {
-            System.out.println(httpClientErrorException.getResponseBodyAsString());
+
+            int isFindOpenId = weChatUserInfoDao.findUserOpenid(openid);
+
+            System.out.println(isFindOpenId);
+
+            if (isFindOpenId == 1) {
+                Map dataResult = getDataResult(openid);
+                return dataResult;
+            } else {
+                int isSave =  weChatUserInfoDao.saveWeChatUserInfo(openid,nickname, sex, city, province, country,headimgurl,privilege,unionidStr);
+               if(isSave == 1) {
+                   Map dataResult = getDataResult(openid);
+                   return dataResult;
+               } else {
+                   return "Save user info fail";
+               }
+            }
+
+        }catch (Exception exception) {
+            return exception.toString();
         }
+    }
+
+    private Map getDataResult(String openid) {
+        WeChatUserInfoPojo getUserInfo = weChatUserInfoDao.findUserInfo(openid);
+        System.out.println(getUserInfo+"mysql user info");
+        System.out.println(getUserInfo.getNickname() + "mysql返回的数据");
+        String token = jwtUtils.createToken(getUserInfo);
+        Map resultData = new HashMap(2);
+        resultData.put("userInfo", getUserInfo);
+        resultData.put("token", token);
+        System.out.println(resultData+"最终返回的数据");
+        return resultData;
     }
 }

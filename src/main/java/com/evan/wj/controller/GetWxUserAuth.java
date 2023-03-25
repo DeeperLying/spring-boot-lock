@@ -51,15 +51,15 @@ public class GetWxUserAuth {
                 System.out.println("获取用户信息去啦～");
                 String accessToken = result.getAccess_token();
                 String openId = result.getOpenid();
-                getWeChatUserInfo.getWeChatSnsapiUserinfo(accessToken, openId);
-                return new Result(200, "success");
+                Object dataResul = getWeChatUserInfo.getWeChatSnsapiUserinfo(accessToken, openId);
+                return new Result(200,"success", dataResul);
             } else {
-                return new Result(400, "code 错误");
+                return new Result(400, "code error");
             }
 
         }
 
-        return new Result(400, "success");
+        return new Result(400, "WeChat code Can not null");
 
     }
 }

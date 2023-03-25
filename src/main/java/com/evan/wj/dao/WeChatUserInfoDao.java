@@ -24,5 +24,12 @@ public interface WeChatUserInfoDao extends JpaRepository<WeChatUserInfoPojo, Int
             ,@Param("city") String city,@Param("province") String province,@Param("country") String country,@Param("headimgurl") String headimgurl
             ,@Param("privilege") String privilege,@Param("unionid") String unionid);
 
+
+    @Query(value = "SELECT EXISTS(SELECT openid FROM we_chat_user_info WHERE openid=(?1))", nativeQuery = true)
+    int findUserOpenid(@Param("openid") String openid);
+
+
+    @Query(value = "SELECT * FROM we_chat_user_info WHERE openid=(?1)", nativeQuery = true)
+    WeChatUserInfoPojo findUserInfo(@Param("openid") String openid);
 }
 
