@@ -1,5 +1,6 @@
 package com.evan.wj.service;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.evan.wj.dao.WeChatUserInfoDao;
 import com.evan.wj.pojo.WeChatUserInfoPojo;
@@ -37,25 +38,26 @@ public class GetWeChatUserInfoService {
         params.put("lang", "zh_CN");
         String path = "https://api.weixin.qq.com/sns/userinfo?access_token={access_token}&openid={openId}&lang={lang}";
         try {
-            String result = restTemplateConfig.customRestTemplate.getForObject(path, String.class,params);
+            Object result = customResultTypeRestTemplate.getForObject(path, Object.class,params);
             System.out.println(result+"=======success");
-            JSONObject resultObj = JSONObject.parseObject(result);
-            System.out.println(resultObj.get("openid")+"===========");
-            String openid = resultObj.get("openid").toString();
-            String nickname = resultObj.get("nickname").toString();
-            int sex = (int)resultObj.get("sex");
-            String city = resultObj.get("city").toString();
-            String province = resultObj.get("province").toString();
-            String country = resultObj.get("country").toString();
-            String headimgurl = resultObj.get("headimgurl").toString();
-            String privilege = resultObj.get("privilege").toString();
-            Object unionid = resultObj.get("unionid");
+            Map userInfo = (Map)result;
+            System.out.println(userInfo.get("openid"));
+            System.out.println(userInfo.get("privilege"));
+            String openid = userInfo.get("openid").toString();
+            String nickname = userInfo.get("nickname").toString();
+            int sex = (int)userInfo.get("sex");
+            String city = userInfo.get("city").toString();
+            String province = userInfo.get("province").toString();
+            String country = userInfo.get("country").toString();
+            String headimgurl = userInfo.get("headimgurl").toString();
+            String privilege = userInfo.get("privilege").toString();
+            Object unionid = userInfo.get("unionid");
             String unionidStr;
-            if ("".equals(resultObj.get("unionid")) || unionid == null){
+            if ("".equals(userInfo.get("unionid")) || unionid == null){
                 System.out.println("空指针");
                 unionidStr = "";
             } else {
-                unionidStr = resultObj.get("unionid").toString();
+                unionidStr = userInfo.get("unionid").toString();
             }
            int isSave =  weChatUserInfoDao.saveWeChatUserInfo(openid,nickname, sex, city, province, country,headimgurl,privilege,unionidStr);
            System.out.println(isSave + "=================save");

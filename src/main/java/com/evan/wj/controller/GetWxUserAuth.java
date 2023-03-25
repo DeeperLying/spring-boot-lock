@@ -46,7 +46,7 @@ public class GetWxUserAuth {
             String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid={appId}&secret={appSecret}&code={code}&grant_type=authorization_code";
 
             GetWxUserAuthPojo result = customResultTypeRestTemplate.getForObject(url, GetWxUserAuthPojo.class, params);
-
+            System.out.println(result+"step 1");
             if (result.getAccess_token() != null) {
                 System.out.println("获取用户信息去啦～");
                 String accessToken = result.getAccess_token();
