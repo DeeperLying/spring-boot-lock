@@ -53,16 +53,12 @@ public class ChatGptService {
             ResponseEntity<String> result = restTemplateConfig.customRestTemplate.exchange(baseUrl, HttpMethod.POST, requestEntity,  String.class);
             return result.getBody();
         } catch (HttpClientErrorException e) {
-<<<<<<< HEAD
             System.out.println(e);
             System.out.println(e.getResponseBodyAsString());
             if ("Unauthorizederror".equals(e)) {
                 return "chatGpt token 过期";
             }
             return e.getResponseBodyAsString();
-=======
-            return !"null".equals(e) ? e.toString() : "";
->>>>>>> v1
         }
     }
 }
