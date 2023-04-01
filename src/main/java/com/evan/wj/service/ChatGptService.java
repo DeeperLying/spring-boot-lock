@@ -53,8 +53,11 @@ public class ChatGptService {
         try {
             restTemplateConfig.customRestTemplate.getMessageConverters().set(1, new StringHttpMessageConverter(StandardCharsets.UTF_8));
             ResponseEntity<String> result = restTemplateConfig.customRestTemplate.exchange(baseUrl, HttpMethod.POST, requestEntity,  String.class);
+            System.out.println("try");
+            System.out.println(OPENAPI_TOKEN);
             return result.getBody();
         } catch (HttpClientErrorException e) {
+            System.out.println("catch");
             System.out.println(e);
             System.out.println(e.getResponseBodyAsString());
 
