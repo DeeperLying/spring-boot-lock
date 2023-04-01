@@ -30,7 +30,7 @@ import java.util.Map;
 @Service
 public class ChatGptService {
     private final int TIMEOUT = 30000;
-    private final String OPENAPI_TOKEN = "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";
+    private final String OPENAPI_TOKEN = "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";
 
     @Autowired
     RestTemplateConfig restTemplateConfig;
@@ -39,7 +39,7 @@ public class ChatGptService {
         String baseUrl = "https://api.openai.com/v1/completions";
         MultiValueMap header = new LinkedMultiValueMap();
         header.add("Content-Type","application/json; charset=utf-8");
-        header.add("Authorization","Bearer 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");
+        header.add("Authorization","Bearer " + OPENAPI_TOKEN);
 
         Map params = new HashMap<>();
         params.put("model", "text-davinci-003");
