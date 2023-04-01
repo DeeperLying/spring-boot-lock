@@ -39,7 +39,7 @@ public class ChatGptService {
         String baseUrl = "https://api.openai.com/v1/completions";
         MultiValueMap header = new LinkedMultiValueMap();
         header.add("Content-Type","application/json; charset=utf-8");
-        header.add("Authorization","Bearer " + OPENAPI_TOKEN);
+        header.add("Authorization","Bearer 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");
 
         Map params = new HashMap<>();
         params.put("model", "text-davinci-003");
