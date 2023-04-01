@@ -49,6 +49,7 @@ public class ChatGptService {
 
         HttpEntity<Object> requestEntity = new HttpEntity<>(params, header);
         System.out.println("进没进来");
+        System.out.println(value);
         try {
             restTemplateConfig.customRestTemplate.getMessageConverters().set(1, new StringHttpMessageConverter(StandardCharsets.UTF_8));
             ResponseEntity<String> result = restTemplateConfig.customRestTemplate.exchange(baseUrl, HttpMethod.POST, requestEntity,  String.class);
