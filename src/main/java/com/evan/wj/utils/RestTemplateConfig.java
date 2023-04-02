@@ -27,6 +27,7 @@ public class RestTemplateConfig {
 
     public RestTemplate customRestTemplate = new RestTemplate(getClientHttpRequestFactory());
 
+    // 因为weChat的response type 是text/* 所以做了MediaType的支持
     @Bean
     public RestTemplate customResultTypeRestTemplate() {
         RestTemplate customRestTemplate = new RestTemplate(getClientHttpRequestFactory());
