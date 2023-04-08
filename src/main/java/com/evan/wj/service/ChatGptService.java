@@ -18,7 +18,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 
-import javax.xml.ws.spi.http.HttpHandler;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
