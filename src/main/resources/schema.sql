@@ -33,3 +33,17 @@ CREATE TABLE IF NOT EXISTS `we_chat_user_info`(
    PRIMARY KEY (`id`),
    KEY `unionid` (`unionid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4  COMMENT='用户登录表';$$$
+
+CREATE TABLE IF NOT EXISTS `goods_list` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `goods_title` varchar(600) NOT NULL COMMENT '商品标题',
+  `goods_image` varchar(600) NOT NULL DEFAULT '' COMMENT '商品图片',
+  `sex` int(11) NOT NULL DEFAULT '0' COMMENT '性别',
+  `size` char(100) DEFAULT NULL COMMENT '大小',
+  `goods_desc` char(100) DEFAULT NULL COMMENT '商品详情',
+  `sale` int(11) DEFAULT NULL COMMENT '销售',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `goods_title` (`goods_title`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='商品信息表';$$$
