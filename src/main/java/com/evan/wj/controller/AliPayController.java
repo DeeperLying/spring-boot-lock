@@ -1,7 +1,9 @@
 package com.evan.wj.controller;
 
+import com.evan.wj.pojo.GoodsPojo;
 import com.evan.wj.result.Result;
 import com.evan.wj.service.AliPayService;
+import com.evan.wj.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -22,17 +24,37 @@ public class AliPayController {
     @Autowired
     AliPayService aliPayService;
 
-    @PostMapping(value = "/comeHerePay")
-    public Result comeHereAliPay(@RequestBody Map data, HttpServletResponse httpServletResponse) {
-        System.out.println(data + "source");
+    @Autowired
+    GoodsService goodsService;
 
-        try {
-            Object body =  aliPayService.aliPay();
-            return new Result(200, "success", body);
-        } catch (Exception e) {
-           System.out.println(e+"errorMessage");
-            return new Result(500, e.getMessage());
-        }
+//    @PostMapping(value = "/comeHerePay")
+//    public Result comeHereAliPay(@RequestBody Map data, HttpServletResponse httpServletResponse) {
+//        System.out.println(data + "source");
+//
+//        try {
+//            Object body =  aliPayService.aliPay();
+//            return new Result(200, "success", body);
+//        } catch (Exception e) {
+//           System.out.println(e+"errorMessage");
+//            return new Result(500, e.getMessage());
+//        }
+//
+//    }
 
+    @GetMapping(value = "/comeHerePay")
+    public Result comeHereAliPay(@RequestParam(value = "id", required = true) int id) {
+               System.out.println(id);
+              Map goods =  goodsService.getGoods(id);
+              if (!goods.isEmpty()) {
+                  try {
+                      Object body =  aliPayService.aliPay(goods);
+                      return new Result(200, "success", body);
+                  } catch (Exception e) {
+                      System.out.println(e+"errorMessage");
+                      return new Result(500, e.getMessage());
+                  }
+              } else {
+                  return new Result(400, "find goods failed");
+              }
     }
 }

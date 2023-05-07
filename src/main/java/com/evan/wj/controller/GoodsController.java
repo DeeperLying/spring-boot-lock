@@ -7,6 +7,9 @@ import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -27,6 +30,23 @@ public class GoodsController {
         System.out.println(goodsPojo);
        int isSave =  goodsService.createGoods(goodsPojo);
        System.out.println(isSave + "=======>>");
-       return new Result(200, "success");
+       if (isSave == 1) {
+           return new Result(200, "success");
+       } else {
+           return new Result(400, "inter goods failed");
+       }
+
+    }
+
+    @GetMapping(value = "/getGoodsList")
+    public Result getGoodsList() {
+       List<GoodsPojo> goodsList = goodsService.getGoodsList();
+       if (!goodsList.isEmpty()) {
+           Map resultBody = new HashMap(1);
+           resultBody.put("goodsList", goodsList);
+           return new Result(200, resultBody);
+       } else {
+           return new Result(400, "find goods failed");
+       }
     }
 }

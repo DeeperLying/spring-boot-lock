@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author SuperLee
@@ -23,6 +24,9 @@ public interface GoodsDao extends JpaRepository<GoodsPojo, Integer > {
     int saveGoods(@Param("goods_title") String goods_title, @Param("goods_image") String goods_image, @Param("sex") int sex
             , @Param("size") String size, @Param("goods_desc") String goods_desc, @Param("sale") int sale);
 
-    @Query(value = "SELECT * from goods_list LIMIT 10", nativeQuery = true)
+    @Query(value = "SELECT id, goods_title,goods_image,goods_desc,sex,size,sale FROM goods_list limit 10", nativeQuery = true)
     List<GoodsPojo> getGoodsList();
+
+    @Query(value = "SELECT id,goods_title,sale from goods_list WHERE id=?1", nativeQuery = true)
+    Map getGoods(@Param("id") int id);
 }
