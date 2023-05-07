@@ -36,7 +36,7 @@ public class AliPayService {
         String subject = shop.get("goods_title").toString();
         System.out.println(subject + "=====>");
 
-        AlipayClient alipayClient = new DefaultAlipayClient(gatewayUrl, appId, merchantPrivateKey, "json","GBK", alipayPublicKey,"RSA2");
+        AlipayClient alipayClient = new DefaultAlipayClient(gatewayUrl, appId, merchantPrivateKey, "json","UTF-8", alipayPublicKey,"RSA2");
 
         AlipayTradeWapPayRequest request = new AlipayTradeWapPayRequest();
         request.setNotifyUrl("");
@@ -44,7 +44,7 @@ public class AliPayService {
         JSONObject bizContent = new JSONObject();
         bizContent.put("out_trade_no", getOutTradeNo());
         bizContent.put("total_amount", total_amount);
-        bizContent.put("subject", "xiaomaibu");
+        bizContent.put("subject", subject);
         bizContent.put("product_code", "QUICK_WAP_WAY");
 
         request.setBizContent(bizContent.toString());

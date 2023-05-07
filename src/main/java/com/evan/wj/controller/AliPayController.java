@@ -42,8 +42,9 @@ public class AliPayController {
 //    }
 
     @GetMapping(value = "/comeHerePay")
-    public Result comeHereAliPay(@RequestParam(value = "id", required = true) int id) {
+    public Result comeHereAliPay(@RequestParam(value = "id", required = true) int id, HttpServletResponse response) {
                System.out.println(id);
+            response.setContentType("text/html;charset=UTF-8");
               Map goods =  goodsService.getGoods(id);
               if (!goods.isEmpty()) {
                   try {
