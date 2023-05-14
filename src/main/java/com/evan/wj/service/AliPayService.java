@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * @author SuperLee
@@ -30,29 +31,43 @@ public class AliPayService {
     private String charset;
     private String gatewayUrl = "https://openapi.alipaydev.com/gateway.do";
 
-    public Object aliPay() throws AlipayApiException {
-        AlipayClient alipayClient = new DefaultAlipayClient(gatewayUrl, appId, merchantPrivateKey, "json","GBK", alipayPublicKey,"RSA2");
+    public Object aliPay(Map shop) throws AlipayApiException {
+        int total_amount = Integer.parseInt(shop.get("sale").toString());
+        String subject = shop.get("goods_title").toString();
+        System.out.println(subject + "=====>");
+
+        AlipayClient alipayClient = new DefaultAlipayClient(gatewayUrl, appId, merchantPrivateKey, "json","UTF-8", alipayPublicKey,"RSA2");
 
         AlipayTradeWapPayRequest request = new AlipayTradeWapPayRequest();
         request.setNotifyUrl("");
         request.setReturnUrl("");
         JSONObject bizContent = new JSONObject();
-        bizContent.put("out_trade_no", "2021081701");
-        bizContent.put("total_amount", 0.01);
-        bizContent.put("subject", "xiaomaibu");
+        bizContent.put("out_trade_no", getOutTradeNo());
+        bizContent.put("total_amount", total_amount);
+        bizContent.put("subject", subject);
         bizContent.put("product_code", "QUICK_WAP_WAY");
+        bizContent.put("quit_url","http://blog.xiaomaibu.pro/home");
+        bizContent.put("return_url", "http://blog.xiaomaibu.pro/home");
+        bizContent.put("notify_url", "http://127.0.0.1:8443/api/aliPayAsyncNotify");
 
         request.setBizContent(bizContent.toString());
         AlipayTradeWapPayResponse response = alipayClient.pageExecute(request);
         if(response.isSuccess()){
-            System.out.println(response + "view loock left right");
-            System.out.println(response.getBody() + "view loock left right");
+            System.out.println(response + "view look left right");
+            System.out.println(response.getBody() + "view look left right");
             System.out.println("调用成功");
             return response.getBody();
         } else {
             System.out.println("调用失败");
             return response.getBody();
         }
+    }
+
+    private String getOutTradeNo() {
+       String out_trade_no =  UUID.randomUUID().toString();
+       System.out.println(out_trade_no.replaceAll("-",""));
+       String id = out_trade_no.replaceAll("-","");
+       return id;
     }
 
 }

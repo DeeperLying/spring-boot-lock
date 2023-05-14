@@ -20,6 +20,8 @@ public class InterceptorConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/api/chat")
                 .excludePathPatterns("/api/createAiImage")
                 .excludePathPatterns("/api/comeHerePay")
+                .excludePathPatterns("/api/createGoods")
+                .excludePathPatterns("/api/getGoodsList")
                 .excludePathPatterns("/api/login");
     }
 }
