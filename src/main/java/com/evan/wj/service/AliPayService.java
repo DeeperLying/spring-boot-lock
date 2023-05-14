@@ -46,6 +46,9 @@ public class AliPayService {
         bizContent.put("total_amount", total_amount);
         bizContent.put("subject", subject);
         bizContent.put("product_code", "QUICK_WAP_WAY");
+        bizContent.put("quit_url","http://blog.xiaomaibu.pro/home");
+        bizContent.put("return_url", "http://blog.xiaomaibu.pro/home");
+        bizContent.put("notify_url", "http://127.0.0.1:8443/api/aliPayAsyncNotify");
 
         request.setBizContent(bizContent.toString());
         AlipayTradeWapPayResponse response = alipayClient.pageExecute(request);

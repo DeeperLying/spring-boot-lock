@@ -58,4 +58,9 @@ public class AliPayController {
                   return new Result(400, "find goods failed");
               }
     }
+
+    @PostMapping(value = "/aliPayAsyncNotify")
+    public void aliPayNotify(@RequestBody Object data) {
+        System.out.println(data.toString()+"=>>>支付callback");
+    }
 }
