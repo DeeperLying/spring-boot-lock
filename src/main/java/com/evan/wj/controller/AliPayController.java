@@ -1,5 +1,6 @@
 package com.evan.wj.controller;
 
+import com.evan.wj.dao.OrderListDao;
 import com.evan.wj.pojo.GoodsPojo;
 import com.evan.wj.result.Result;
 import com.evan.wj.service.AliPayService;
@@ -28,6 +29,9 @@ public class AliPayController {
 
     @Autowired
     GoodsService goodsService;
+
+    @Autowired
+    OrderListDao orderListDao;
 
 //    @PostMapping(value = "/comeHerePay")
 //    public Result comeHereAliPay(@RequestBody Map data, HttpServletResponse httpServletResponse) {
@@ -67,11 +71,15 @@ public class AliPayController {
         Set<String> keys = map.keySet();
 
         for(String key : keys) {
-
             String[] value = map.get(key);
-
             System.out.println(key + " = " + value[0]);
-
         }
+
+        System.out.println(map.get("out_trade_no")[0] + "进来了，订单号");
+        String out_trade_no = map.get("out_trade_no")[0];
+        String trade_status = map.get("trade_status")[0];
+        System.out.println(trade_status + "trade_status");
+
+        orderListDao.updateGoodsOrderStatus(out_trade_no, trade_status);
     }
 }
