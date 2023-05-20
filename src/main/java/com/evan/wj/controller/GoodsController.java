@@ -1,6 +1,7 @@
 package com.evan.wj.controller;
 
 import com.evan.wj.pojo.GoodsPojo;
+import com.evan.wj.pojo.OrderListPojo;
 import com.evan.wj.result.Result;
 import com.evan.wj.service.GoodsService;
 import io.lettuce.core.dynamic.annotation.Param;
@@ -48,5 +49,17 @@ public class GoodsController {
        } else {
            return new Result(400, "find goods failed");
        }
+    }
+
+    @GetMapping(value = "/getOrderList")
+    public Result getOrderList() {
+        List<OrderListPojo> orderList = goodsService.getOrderList();
+        if (!orderList.isEmpty()) {
+            Map resultBody = new HashMap(1);
+            resultBody.put("orderList", orderList);
+            return new Result(200, resultBody);
+        } else {
+            return new Result(400, "find order failed");
+        }
     }
 }

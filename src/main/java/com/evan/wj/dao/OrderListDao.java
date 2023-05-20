@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 /**
  * @author SuperLee
@@ -28,4 +29,7 @@ public interface OrderListDao extends JpaRepository<OrderListPojo, Integer > {
     @Modifying
     @Query(value = "UPDATE order_list SET order_status=?2 WHERE out_trade_no=?1", nativeQuery = true)
     int updateGoodsOrderStatus(@Param("out_trade_no") String out_trade_no, @Param("trade_status") String trade_status);
+
+    @Query(value = "SELECT * FROM order_list limit 10", nativeQuery = true)
+    List<OrderListPojo> getOrderList();
 }

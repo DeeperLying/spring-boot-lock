@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.evan.wj.dao.GoodsDao;
 import com.evan.wj.dao.OrderListDao;
 import com.evan.wj.pojo.GoodsPojo;
+import com.evan.wj.pojo.OrderListPojo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,5 +44,10 @@ public class GoodsService {
         int isSave = orderListDao.saveGoodsOrder(goods.get("id").toString(), out_trade_no, goods.get("goods_title").toString(), goods.get("goods_image").toString(),
                 Integer.parseInt(goods.get("sex").toString()), goods.get("size").toString(),goods.get("goods_desc").toString(),Integer.parseInt(goods.get("sale").toString()), "WAIT_BUYER_PAY");
         return isSave;
+    }
+
+    public List<OrderListPojo> getOrderList() {
+        List<OrderListPojo> goodsList = orderListDao.getOrderList();
+        return goodsList;
     }
 }
