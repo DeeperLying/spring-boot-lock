@@ -47,3 +47,20 @@ CREATE TABLE IF NOT EXISTS `goods_list` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `goods_title` (`goods_title`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COMMENT='商品信息表';$$$
+
+CREATE TABLE IF NOT EXISTS `order_list` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `goods_id` int(11) NOT NULL COMMENT '对应的商品ID',
+  `out_trade_no` CHAR(100) NOT NULL COMMENT '订单号',
+  `goods_title` varchar(600) NOT NULL COMMENT '商品标题',
+  `goods_image` varchar(600) NOT NULL DEFAULT '' COMMENT '商品图片',
+  `sex` int(11) NOT NULL DEFAULT '0' COMMENT '性别',
+  `size` char(100) DEFAULT NULL COMMENT '大小',
+  `goods_desc` char(100) DEFAULT NULL COMMENT '商品详情',
+  `sale` int(11) DEFAULT NULL COMMENT '销售',
+  `order_status` CHAR(255) NOT NULL DEFAULT 'WAIT_BUYER_PAY' COMMENT '订单状态，与支付宝状态保持一致',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `out_trade_no` (`out_trade_no`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='订单信息表';$$$

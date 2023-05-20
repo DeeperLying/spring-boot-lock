@@ -27,6 +27,6 @@ public interface GoodsDao extends JpaRepository<GoodsPojo, Integer > {
     @Query(value = "SELECT id, goods_title,goods_image,goods_desc,sex,size,sale FROM goods_list limit 10", nativeQuery = true)
     List<GoodsPojo> getGoodsList();
 
-    @Query(value = "SELECT id,goods_title,sale from goods_list WHERE id=?1", nativeQuery = true)
+    @Query(value = "SELECT * from goods_list WHERE id=?1", nativeQuery = true)
     Map getGoods(@Param("id") int id);
 }
