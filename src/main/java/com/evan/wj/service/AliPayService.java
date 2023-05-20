@@ -43,8 +43,8 @@ public class AliPayService {
         AlipayClient alipayClient = new DefaultAlipayClient(gatewayUrl, appId, merchantPrivateKey, "json","UTF-8", alipayPublicKey,"RSA2");
 
         AlipayTradeWapPayRequest request = new AlipayTradeWapPayRequest();
-        request.setNotifyUrl("");
-        request.setReturnUrl("");
+        request.setNotifyUrl("http://blog.xiaomaibu.pro/api/aliPayAsyncNotify");
+        // request.setReturnUrl("");
         JSONObject bizContent = new JSONObject();
         bizContent.put("out_trade_no", out_trade_no);
         bizContent.put("total_amount", total_amount);
@@ -52,7 +52,7 @@ public class AliPayService {
         bizContent.put("product_code", "QUICK_WAP_WAY");
         bizContent.put("quit_url","http://blog.xiaomaibu.pro/home");
         bizContent.put("return_url", "http://blog.xiaomaibu.pro/home");
-        bizContent.put("notify_url", "http://blog.xiaomaibu.pro/api/aliPayAsyncNotify");
+        // bizContent.put("notify_url", "http://blog.xiaomaibu.pro/api/aliPayAsyncNotify");
 
         request.setBizContent(bizContent.toString());
         AlipayTradeWapPayResponse response = alipayClient.pageExecute(request);

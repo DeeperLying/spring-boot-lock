@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author SuperLee
@@ -60,7 +62,16 @@ public class AliPayController {
     }
 
     @PostMapping(value = "/aliPayAsyncNotify")
-    public void aliPayNotify(@RequestBody Object data) {
-        System.out.println(data.toString()+"=>>>支付callback");
+    public void aliPayNotify(HttpServletRequest request) {
+        Map<String,String[]> map = request.getParameterMap();
+        Set<String> keys = map.keySet();
+
+        for(String key : keys) {
+
+            String[] value = map.get(key);
+
+            System.out.println(key + " = " + value[0]);
+
+        }
     }
 }
