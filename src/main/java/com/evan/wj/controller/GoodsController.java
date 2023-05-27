@@ -5,13 +5,13 @@ import com.evan.wj.pojo.OrderListPojo;
 import com.evan.wj.result.Result;
 import com.evan.wj.service.GoodsService;
 import io.lettuce.core.dynamic.annotation.Param;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @author SuperLee
@@ -23,6 +23,10 @@ import java.util.UUID;
 public class GoodsController {
     @Autowired
     GoodsService goodsService;
+
+    // 我目前对@Autowired and @Resource 的理解是规范是 @Autowired 是用来调用自己写的@Bean @Resource是用来调用Maven的
+    @Resource
+    private RabbitTemplate rabbitTemplate;
 
     @PostMapping(value = "/createGoods")
     public Result createGoods(@RequestBody GoodsPojo goodsPojo) {
@@ -61,5 +65,19 @@ public class GoodsController {
         } else {
             return new Result(400, "find order failed");
         }
+    }
+
+    @PostMapping(value = "/rabbitMQ")
+    public Result createRabbitMQ () {
+        //日期格式化
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String msgId = UUID.randomUUID().toString().replace("-", "").substring(0, 32);
+        String sendTime = sdf.format(new Date());
+        Map<String, Object> map = new HashMap<>();
+        map.put("msgId", msgId);
+        map.put("sendTime", sendTime);
+        map.put("msg", "随便谢谢");
+        rabbitTemplate.convertAndSend("RABBITMQ_DEMO_DIRECT_EXCHANGE", "RABBITMQ_DEMO_DIRECT_ROUTING_KEY", map);
+        return new Result(200, "success");
     }
 }
