@@ -7,9 +7,11 @@ import com.alipay.api.CertAlipayRequest;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.request.AlipayTradeWapPayRequest;
 import com.alipay.api.response.AlipayTradeWapPayResponse;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -23,6 +25,9 @@ import java.util.UUID;
 public class AliPayService {
     @Autowired
     GoodsService goodsService;
+
+    @Resource
+    RabbitTemplate rabbitTemplate;
 
     private final String appId = "2021000122673476";
     private final String merchantPrivateKey = "MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCDmU6MwPrB/yJDgsOL5dBxrFEptsOVLIt3YIUWKyoEiVFxKD7r1Mhe1TQ9iRt+vRFkPUG0phGARmfVTbqFDjy73fkEfMHNmL+qNXUiPVHe7XUGEFCjpmSvESw9U4Sml2/hNEB48XV9TVTOHL1Wtma8EA6vdqRFNibA6zfC/eCp5cu2nRx9OLH3H5RjmhZw4t+31R2nUls9BLizIJslXx4ZTFoeLlMknc5kOxZwEEDwT0t3r6SJn8w4ksqsq88iDh+QE8Ojcq0OLXV3dQS9zb+JjsPL8T5PD6Njr3v6IeeHPZOBTxO2gvYOKQuHhnCfALNeIi1CczJ0inRUY5ds3Sv3AgMBAAECggEAcTrGmFsvJx5kF9x6bnPFnxkaGJ81t7PFKGj2+fUXySFx3sA3K2lBIj+mHFBNRQZe4XXHhCzjoBB0JNclZniyjx7VtSO3CTSlrUkjyNskB4EfEKGXEMgJl4xaGUY0O7bPP+Fam/V+Ftsj3dhinSqCSMw0JosZmqeWPqXkq7UPyn4+RyxYslE+hMD1Tub+8PKxtnUytd5a7z78W8j6/rAIt3TLf1kJ/3NWfzix3nvmw0oMOE5oJsTTU0VrPo9jjaq8lzWIYq1e5Vln31kV5T58MVnZbFshQmkyO8Yakuym91d/0jYL/NlDTk4Lyi4N7TcxtYqQummdGlMOs/cwJ2G9iQKBgQDJfdFNSL5+KjdLyW14JF8LxfpmdMYkw48QlEID+HatOsGiS/d2IGu4xnusIOlpkL7Kzyya0g8M64Y51xmWPVTDQz2lIE5z5HR4IC8PYNsZ1+BZMAJ3DnKbUwtVRuppMH5B2L0TeXSOo8Bl0rTGJvrsvMC145zwvo5vaMr15T+pawKBgQCnMx0n4TPOuWkwZEHUVmU53Vka/2Mp+lofwuvoM0zNblKOJPATZcUgk9c+qEVW1HVer0OugoMosImWZ6FZQOjpA6zr57b//STf5pyKy/N2YnSY7ukOJkHbw855mlihdHfIfKgSrz8+UWbFmkLnaT/Lyx+w7Dr3ojw1aSk7BVtupQKBgCmOvrWO9GM3N9J0yBRIhCX8fmnVWezJPN+xhHAnNesCvF9KBc8iXrVskqNs4ld4mDFiS5PfEWWbykJxwABBxBLF8pf1MtkqXG9OTAaC9o28/bPHeCqwGyk4FpVPHBf3/YJ9PnoeydCFq7AUpl5cOdLMF38sY/kvhFcsKPhQgTHjAoGAb2ohGIz5r9xfWs7ECxGTHI8CLHpYAwX/fkCuYKmmmRHV00CL9fEP/dhmSytoIScsGu8hY602ZyvUUzQ1ETuuuG8pkH10tXpjUwvh7p9fWdjbp3k0NaiKpD4DXYbbXqM0mpVujhzXQNiPakeUI44/47Y0JPoVhSRHiLPNtLWqKr0CgYBmVUPmh4jCLxNzgobk4ZzaRlQegdiBAbM0SUy5llRULS6Gk+ZNKg0OBeD4NokMdMJqKVnOg9owwwtoMI3GTNHu4XlfpoTrOXGnJwUZNybBPEEhSZhubjg8D/nVMY8tcDahWY04+HnAdxNkAViGYRlsVDSQa2ao4qKUcPOVVI4OJA==";
@@ -60,6 +65,7 @@ public class AliPayService {
             System.out.println("调用成功");
             int isSave = goodsService.createGoodsOrder(shop, out_trade_no);
             if (isSave == 1) {
+                rabbitTemplate.convertAndSend("RABBITMQ_DEMO_DIRECT_EXCHANGE", "RABBITMQ_DEMO_DIRECT_ROUTING_KEY", out_trade_no);
                 return response.getBody();
             } else {
                 Map map = new HashMap(1);

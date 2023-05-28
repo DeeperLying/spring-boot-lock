@@ -49,20 +49,20 @@ public class AliPayController {
 
     @GetMapping(value = "/comeHerePay")
     public Result comeHereAliPay(@RequestParam(value = "id", required = true) int id, HttpServletResponse response) {
-               System.out.println(id);
-            response.setContentType("text/html;charset=UTF-8");
-              Map goods =  goodsService.getGoods(id);
-              if (!goods.isEmpty()) {
-                  try {
-                      Object body =  aliPayService.aliPay(goods);
-                      return new Result(200, "success", body);
-                  } catch (Exception e) {
-                      System.out.println(e+"errorMessage");
-                      return new Result(500, e.getMessage());
-                  }
-              } else {
-                  return new Result(400, "find goods failed");
+        System.out.println(id);
+        response.setContentType("text/html;charset=UTF-8");
+          Map goods =  goodsService.getGoods(id);
+          if (!goods.isEmpty()) {
+              try {
+                  Object body =  aliPayService.aliPay(goods);
+                  return new Result(200, "success", body);
+              } catch (Exception e) {
+                  System.out.println(e+"errorMessage");
+                  return new Result(500, e.getMessage());
               }
+          } else {
+              return new Result(400, "find goods failed");
+          }
     }
 
     @PostMapping(value = "/aliPayAsyncNotify")
