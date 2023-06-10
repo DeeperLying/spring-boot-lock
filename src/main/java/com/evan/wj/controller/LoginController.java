@@ -54,6 +54,7 @@ public class LoginController {
         if (user != null) {
             String token = jwtUtils.createToken(user);
             data.put("token", token);
+            data.put("code", 200);
             // return new Result(200, data);
             return new ResponseEntity<Map>(data, HttpStatus.OK);
         } else {
