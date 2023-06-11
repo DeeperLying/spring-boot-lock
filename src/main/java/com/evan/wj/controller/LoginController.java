@@ -3,6 +3,7 @@ package com.evan.wj.controller;
 import com.alibaba.fastjson.JSON;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.evan.wj.dao.UserDao;
 import com.evan.wj.pojo.ArticleList;
 import com.evan.wj.result.Result;
 import com.evan.wj.service.ArticleListService;
@@ -38,6 +39,9 @@ public class LoginController {
 
     @Autowired
     EmailService emailService;
+
+    @Autowired
+    UserDao userDao;
 
     @CrossOrigin(allowCredentials = "true")
     @PostMapping(value = "api/login")
@@ -84,6 +88,21 @@ public class LoginController {
         boolean isRegister = userService.register(user, httpSession);
 
         if (isRegister) {
+            return new Result(200, "success");
+        }
+        return new Result(400, "注册失败");
+    }
+
+    @CrossOrigin(allowCredentials = "true")
+    @PostMapping(value = "api/register/phone")
+    @ResponseBody
+    public Result registerPhone(@RequestBody User user, HttpSession httpSession) {
+        String username = user.getUsername();
+        String password = user.getPassword();
+        String phone = user.getPhone();
+        int isRegister = userDao.savePhoneUser(username, password, phone);
+
+        if (isRegister == 1) {
             return new Result(200, "success");
         }
         return new Result(400, "注册失败");

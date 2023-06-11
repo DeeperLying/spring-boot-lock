@@ -19,4 +19,9 @@ public interface UserDao extends JpaRepository<User, Integer> {
     @Modifying
     @Query(value = "INSERT INTO user(id, username, password, email) VALUES(null, ?1, ?2, ?3)", nativeQuery = true)
     int saveUser(@Param("username") String username,@Param("password") String password, @Param("email") String email);
+
+    @Transactional
+    @Modifying
+    @Query(value = "INSERT INTO user(id, username, password, phone) VALUES(null, ?1, ?2, ?3)", nativeQuery = true)
+    int savePhoneUser(@Param("username") String username,@Param("password") String password, @Param("phone") String phone);
 }

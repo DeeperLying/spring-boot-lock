@@ -25,6 +25,9 @@ public class InterceptorConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/api/aliPayAsyncNotify")
                 .excludePathPatterns("/api/getOrderList")
                 .excludePathPatterns("/api/rabbitMQ")
+                .excludePathPatterns("/api/sendEmail")
+                .excludePathPatterns("/api/register")
+                .excludePathPatterns("/api/register/phone")
                 .excludePathPatterns("/api/login");
     }
 }
