@@ -50,21 +50,56 @@ public class LoginController {
 
         List<ArticleList> articleListList = articleListService.getArticleList();
 
-        String userName =  requestUser.getUsername();
+        String email =  requestUser.getEmail();
         String password = requestUser.getPassword();
-        userName = HtmlUtils.htmlEscape(userName);
-        User user = userService.get(userName, password);
+        //userName = HtmlUtils.htmlEscape(userName);
+        Map user = userService.get(email, password);
+        System.out.println(user +"user");
         Map<String, Object> data = new HashMap<>();
-        if (user != null) {
-            String token = jwtUtils.createToken(user);
+        if (!user.isEmpty()) {
+            String userName = user.get("userName").toString();
+            String token = jwtUtils.createUserAndPhoneToken(userName);
             data.put("token", token);
             data.put("code", 200);
+            data.put("data", user);
             // return new Result(200, data);
             return new ResponseEntity<Map>(data, HttpStatus.OK);
         } else {
             Map<String, Object> dataList = new HashMap<>();
-            data.put("errorMessage", "用户名或密码错误");
+            data.put("errorMessage", "邮箱或密码错误");
             data.put("data", dataList);
+            data.put("code", 400);
+            return new ResponseEntity<Map>(data, HttpStatus.BAD_REQUEST);
+            // return new Result(400);
+        }
+    }
+
+    @CrossOrigin(allowCredentials = "true")
+    @PostMapping(value = "api/login/phone")
+    @ResponseBody
+    public ResponseEntity<Map> LoginPhone(HttpServletResponse response, @RequestBody User requestUser) {
+
+        List<ArticleList> articleListList = articleListService.getArticleList();
+
+        String phone =  requestUser.getPhone();
+        String password = requestUser.getPassword();
+        //userName = HtmlUtils.htmlEscape(userName);
+        Map user = userService.getPhone(phone, password);
+        System.out.println(user +"user12");
+        Map<String, Object> data = new HashMap<>();
+        if (!user.isEmpty()) {
+            String userName = user.get("userName").toString();
+            String token = jwtUtils.createUserAndPhoneToken(userName);
+            data.put("token", token);
+            data.put("code", 200);
+            data.put("data", user);
+            // return new Result(200, data);
+            return new ResponseEntity<Map>(data, HttpStatus.OK);
+        } else {
+            Map<String, Object> dataList = new HashMap<>();
+            data.put("errorMessage", "手机号或密码错误");
+            data.put("data", dataList);
+            data.put("code", 400);
             return new ResponseEntity<Map>(data, HttpStatus.BAD_REQUEST);
             // return new Result(400);
         }

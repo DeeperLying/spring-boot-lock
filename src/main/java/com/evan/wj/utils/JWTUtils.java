@@ -25,6 +25,18 @@ public class JWTUtils {
 
     public static String secret="superLee";
 
+    public String createUserAndPhoneToken(String name) {
+        String token = JWT.create()
+                .withIssuer("Lee")
+                .withSubject("Token")
+                .withAudience("client")
+                .withClaim("username", name)
+                .withIssuedAt(new Date())
+                .withExpiresAt(expireDate())
+                .sign(Algorithm.HMAC256(secret));
+        return token;
+    }
+
     public String createToken(WeChatUserInfoPojo weChatUserInfoPojo) {
         String token = JWT.create()
                 .withIssuer("Lee")

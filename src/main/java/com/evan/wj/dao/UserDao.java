@@ -8,12 +8,17 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.Map;
 
 @Repository
 public interface UserDao extends JpaRepository<User, Integer> {
     User findByUsername(String userName);
 
-    User getByUsernameAndPassword(String userName, String password);
+    @Query(value = "SELECT id,username,email,phone,sex,role,headimgurl FROM user WHERE email=?1 and password=?2", nativeQuery = true)
+    Map getByEmailAndPassword(String email, String password);
+
+    @Query(value = "SELECT id,username,email,phone,sex,role,headimgurl FROM user WHERE phone=?1 and password=?2", nativeQuery = true)
+    Map getByPhoneAndPassword(String phone, String password);
 
     @Transactional
     @Modifying
