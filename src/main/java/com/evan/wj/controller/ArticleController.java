@@ -19,7 +19,7 @@ public class ArticleController {
     @Autowired
     ArticleService articleService;
 
-    @CrossOrigin
+    @CrossOrigin(allowCredentials = "true")
     @PostMapping(value = "api/saveArticle")
     @ResponseBody
     public Result saveArticle(@RequestBody Article article) {

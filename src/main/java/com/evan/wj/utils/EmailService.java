@@ -43,7 +43,7 @@ public class EmailService {
         System.out.println(code);
         simpleMailMessage.setTo(email);
         simpleMailMessage.setFrom(sendEmailFrom);
-        simpleMailMessage.setText("您的注册验证码是:" + code);
+        simpleMailMessage.setText("小卖部官网提醒您：你的注册验证码是:" + code);
         javaMailSender.send(simpleMailMessage);
         return true;
         } catch (Exception exception) {

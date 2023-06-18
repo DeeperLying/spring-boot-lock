@@ -64,3 +64,17 @@ CREATE TABLE IF NOT EXISTS `order_list` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `out_trade_no` (`out_trade_no`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='订单信息表';$$$
+
+CREATE TABLE IF NOT EXISTS  `user` (
+    `id` int(12) NOT NULL AUTO_INCREMENT,
+    `password` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+    `username` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
+    `email` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Email',
+    `phone` varchar(20) DEFAULT NULL COMMENT '手机',
+    `sex` int(11) NOT NULL DEFAULT '0' COMMENT '性别',
+    `role` int(11) NOT NULL DEFAULT '0' COMMENT '角色',
+    `headimgurl` varchar(600) DEFAULT NULL COMMENT '头像',
+    `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='通过邮箱和手机注册的用户表';$$$

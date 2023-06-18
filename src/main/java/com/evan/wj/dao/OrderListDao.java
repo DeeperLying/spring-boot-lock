@@ -30,6 +30,9 @@ public interface OrderListDao extends JpaRepository<OrderListPojo, Integer > {
     @Query(value = "UPDATE order_list SET order_status=?2 WHERE out_trade_no=?1", nativeQuery = true)
     int updateGoodsOrderStatus(@Param("out_trade_no") String out_trade_no, @Param("trade_status") String trade_status);
 
-    @Query(value = "SELECT * FROM order_list limit 10", nativeQuery = true)
+    @Query(value = "SELECT * FROM order_list ORDER BY id DESC", nativeQuery = true)
     List<OrderListPojo> getOrderList();
+
+    @Query(value = "SELECT order_status FROM order_list WHERE out_trade_no=?1", nativeQuery = true)
+    String getOrderStatus(@Param("out_trade_no") String out_trade_no);
 }

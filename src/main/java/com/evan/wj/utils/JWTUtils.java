@@ -25,6 +25,18 @@ public class JWTUtils {
 
     public static String secret="superLee";
 
+    public String createUserAndPhoneToken(String name) {
+        String token = JWT.create()
+                .withIssuer("Lee")
+                .withSubject("Token")
+                .withAudience("client")
+                .withClaim("username", name)
+                .withIssuedAt(new Date())
+                .withExpiresAt(expireDate())
+                .sign(Algorithm.HMAC256(secret));
+        return token;
+    }
+
     public String createToken(WeChatUserInfoPojo weChatUserInfoPojo) {
         String token = JWT.create()
                 .withIssuer("Lee")
@@ -64,7 +76,7 @@ public class JWTUtils {
     }
 
     public Date expireDate() {
-        long time = 30*60*1000; // 过期时间
+        long time = 30 * 60 * 1000; // 过期时间
         Date now = new Date();
         Date afterDate = new Date(now.getTime() + time);
         return afterDate;

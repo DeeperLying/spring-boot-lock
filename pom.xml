@@ -180,6 +180,12 @@
             <version>4.35.97.ALL</version>
         </dependency>
 
+        <!--     rabbitmq 消息队列    -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+
     </dependencies>
     <properties>
         <java.version>1.8</java.version>

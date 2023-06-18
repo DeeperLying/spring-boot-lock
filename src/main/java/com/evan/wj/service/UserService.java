@@ -7,6 +7,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 @Service
 public class UserService {
@@ -24,8 +25,12 @@ public class UserService {
         return userDAO.findByUsername(username);
     }
 
-    public User get(String username, String password){
-        return userDAO.getByUsernameAndPassword(username, password);
+    public Map get(String email, String password){
+        return userDAO.getByEmailAndPassword(email, password);
+    }
+
+    public Map getPhone(String phone, String password){
+        return userDAO.getByPhoneAndPassword(phone, password);
     }
 
     public void add(User user) {
