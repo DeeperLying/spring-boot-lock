@@ -50,7 +50,7 @@ public class RabbitMQConfig implements BeanPostProcessor {
         // Map<String, Object> args = new HashMap<>(1);
         //args.put("x-message-ttl", 5 * 1000);
         Map<String, Object> args  = new HashMap<>();
-        args.put("x-message-ttl", 60000);
+        args.put("x-message-ttl",  30 * 60 * 1000);
         args.put("x-dead-letter-exchange", "deal_exchange");
         args.put("x-dead-letter-routing-key", "deal_queue_key");
         return new Queue("RABBITMQ_DEMO_TOPIC_QUEUE", false, false, false, args);
