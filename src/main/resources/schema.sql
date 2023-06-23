@@ -78,3 +78,15 @@ CREATE TABLE IF NOT EXISTS  `user` (
     `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='通过邮箱和手机注册的用户表';$$$
+
+CREATE TABLE IF NOT EXISTS `article` (
+   `id` int(11) NOT NULL AUTO_INCREMENT,
+   `author` varchar(101) NOT NULL,
+   `text` text NOT NULL,
+   `title` varchar(30) NOT NULL,
+   `introduction` varchar(188)  NOT NULL,
+   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
+   PRIMARY KEY (`id`),
+   UNIQUE KEY `title` (`title`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='文章表单';$$$

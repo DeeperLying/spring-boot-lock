@@ -25,7 +25,6 @@ public class ArticleController {
     public Result saveArticle(@RequestBody Article article) {
         String author = article.getAuthor();
         System.out.println(JSON.toJSON(article));
-        System.out.println(article.getDate());
         if (author != null) {
             int isSave = articleService.saveArticle(article);
             if (isSave != 0) {

@@ -24,9 +24,6 @@ public class Article implements Serializable {
     @Column(name = "title", columnDefinition = "VARCHAR(30) NOT NULL UNIQUE")
     String title;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    Date date;
-
     @Column(name = "author", columnDefinition = "VARCHAR(101) NOT NULL", length = 101)
     String author;
 

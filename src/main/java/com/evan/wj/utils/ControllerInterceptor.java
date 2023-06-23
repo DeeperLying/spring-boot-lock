@@ -63,7 +63,7 @@ public class ControllerInterceptor implements HandlerInterceptor {
         response.addHeader("Access-Control-Allow-Credentials", "true");
         response.addHeader("Access-Control-Allow-Origin", origin);
         response.addHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
-        response.addHeader("Access-Control-Allow-Headers", "Content-Type,X-CAF-Authorization-Token,sessionToken,X-TOKEN");
+        response.setHeader("Access-Control-Allow-Headers", "Authentication, content-type");
         response.setContentType("application/json; charset=utf-8");
         response.setStatus(401);
         PrintWriter writer = null;
@@ -84,7 +84,7 @@ public class ControllerInterceptor implements HandlerInterceptor {
             response.addHeader("Access-Control-Allow-Credentials", "true");
             response.addHeader("Access-Control-Allow-Origin", origin);
             response.addHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
-            response.addHeader("Access-Control-Allow-Headers", "Content-Type,X-CAF-Authorization-Token,sessionToken,X-TOKEN");
+            response.setHeader("Access-Control-Allow-Headers", "Authentication, content-type");
             response.setContentType("application/json; charset=utf-8");
             response.setStatus(401);
             PrintWriter writer = null;

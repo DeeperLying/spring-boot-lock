@@ -21,10 +21,9 @@ public class ArticleService {
     public int saveArticle(Article article) {
         String title = article.getTitle();
         String author = article.getAuthor();
-        Date date = article.getDate();
         String text = article.getText();
         String introduction = article.getIntroduction();
-            return articleDao.saveActicle(title, date, author, text, introduction);
+            return articleDao.saveActicle(title, author, text, introduction);
     }
 
     public Article getArticle(int id) {
@@ -40,7 +39,6 @@ public class ArticleService {
             Map item = new HashMap<String,Object>();
             item.put("id", article.getId());
             item.put("author", article.getAuthor());
-            item.put("date", article.getDate());
             item.put("title", article.getTitle());
             item.put("introduction", article.getIntroduction());
             result.add(item);

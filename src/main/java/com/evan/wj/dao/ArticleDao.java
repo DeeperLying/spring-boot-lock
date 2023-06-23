@@ -19,10 +19,9 @@ import java.util.Map;
 public interface ArticleDao extends JpaRepository<Article, Integer> {
     @Transactional
     @Modifying
-    @Query(value = "insert into article(id,title,date,author,text,introduction) values (null,?1,?2, ?3, ?4, ?5)", nativeQuery = true)
+    @Query(value = "insert into article(id,title,author,text,introduction) values (null,?1,?2, ?3, ?4)", nativeQuery = true)
     int saveActicle(
         @Param("title") String title,
-        @Param("date") Date date,
         @Param("author") String author,
         @Param("text") String text,
         @Param("introduction") String introduction
@@ -35,6 +34,6 @@ public interface ArticleDao extends JpaRepository<Article, Integer> {
     @Query(value = "SELECT * FROM article WHERE id=?1", nativeQuery = true)
     Article findByArticle(@Param("id") int id);
 
-    @Query(value = "SELECT id,author,date,introduction,title,text FROM article ORDER BY id LIMIT ?1, ?2", nativeQuery = true)
+    @Query(value = "SELECT id,author,introduction,title,text FROM article ORDER BY id LIMIT ?1, ?2", nativeQuery = true)
     List<Article> findByArticleList(@Param("startIndex") int startIndex, @Param("overIndex") int overIndex);
 }
