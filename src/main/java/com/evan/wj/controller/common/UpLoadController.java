@@ -48,7 +48,7 @@ public class UpLoadController {
             file.transferTo(saveFilePath);
             Map<String, String> data = new HashMap<String, String>();
             // "/static" + File.separator + "Images/" 之所以这样写就是希望它在特殊环境报错
-            String requestFilePath = File.separator + "img/" + filename;
+            String requestFilePath = File.separator + filename;
             data.put("url", requestFilePath);
             return new Result(200, "success", data);
         } catch (IOException e) {
