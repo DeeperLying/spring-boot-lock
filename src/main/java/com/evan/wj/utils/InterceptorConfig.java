@@ -2,6 +2,7 @@ package com.evan.wj.utils;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
@@ -31,5 +32,12 @@ public class InterceptorConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/api/login/phone")
                 .excludePathPatterns("/api/login")
                 .excludePathPatterns("/img/*");
+    }
+
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        /**
+         * 将/upload/**映射到file:D://upload
+         */
+        registry.addResourceHandler("/img/**").addResourceLocations("file:/media/images/");
     }
 }

@@ -26,13 +26,14 @@ public class UpLoadController {
             return new Result(400, "请上传文件");
         }
         //总的路径
-        String staticPath = ClassUtils.getDefaultClassLoader().getResource("static").getPath();
-        //String staticPath = null;
-        try {
-            staticPath = ResourceUtils.getURL("classpath:").getPath() + "static" + File.separator + "img" +File.separator;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+//        String staticPath = ClassUtils.getDefaultClassLoader().getResource("static").getPath();
+//        //String staticPath = null;
+//        try {
+//            staticPath = ResourceUtils.getURL("classpath:").getPath() + "static" + File.separator + "img" +File.separator;
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+        String staticPath = "/media/images/";
         System.out.println(staticPath);
         File temp = new File(staticPath);
         if (!temp.exists()){
