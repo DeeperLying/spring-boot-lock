@@ -34,6 +34,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/img/*");
     }
 
+    @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         /**
          * 将/upload/**映射到file:D://upload
