@@ -52,4 +52,13 @@ public class ArticleController {
         List<Map> articleListList = articleService.findByArticleList(startIndex, pageSize);
         return new Result(200, articleListList);
     }
+
+    @CrossOrigin(allowCredentials = "true")
+    @GetMapping(value = "api/getUserArticleList")
+    @ResponseBody
+    public Result getUserArticleList(@RequestParam("pageSize") int pageSize, @RequestParam("currentPage") int currentPage, @RequestParam("userId") int userId) {
+        int startIndex = currentPage * pageSize;
+        List<Map> articleUserList = articleService.findByUserArticleList(startIndex, pageSize, userId);
+        return new Result(200, articleUserList);
+    }
 }

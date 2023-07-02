@@ -98,3 +98,18 @@ begin
 end;$$$
 
 CALL myLee8();$$$
+
+drop procedure if exists myLee9;$$$
+create procedure myLee9()
+begin
+    IF(select 1 from information_schema.columns  where table_schema='white_jotter' and table_name='article' and column_name ='user_id') THEN
+        SELECT 'save';
+    ELSE
+        ALTER TABLE article ADD COLUMN user_id int(11) NOT NULL COMMENT "user";
+        ALTER TABLE article ADD COLUMN text_html text NOT NULL COMMENT "内容携带html";
+        ALTER TABLE article ADD COLUMN banner varchar(300) DEFAULT NULL COMMENT "文章封面";
+        ALTER  TABLE article MODIFY title varchar(300) NOT NULL COMMENT "文章标题";
+        ALTER  TABLE article MODIFY introduction varchar(600) NOT NULL COMMENT "文章简介";
+    END IF;
+end;$$$
+CALL myLee9();$$$

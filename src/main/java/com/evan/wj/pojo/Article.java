@@ -28,5 +28,9 @@ public class Article implements Serializable {
     String author;
 
     String text;
+    String text_html;
+    int userId;
+    String create_time;
     String introduction;
+    String banner;
 }

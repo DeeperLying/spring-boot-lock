@@ -17,7 +17,7 @@ import java.util.Map;
 @Controller
 public class UpLoadController {
 
-    @CrossOrigin
+    @CrossOrigin(allowCredentials = "true")
     @PostMapping(value = "api/upLoad")
     // TODO @PostMapping(name = "api/upLoad") name属性会导致静态资源没办法访问
     @ResponseBody
@@ -26,8 +26,8 @@ public class UpLoadController {
             return new Result(400, "请上传文件");
         }
         //总的路径
-        // String staticPath = ClassUtils.getDefaultClassLoader().getResource("static").getPath();
-        String staticPath = null;
+        String staticPath = ClassUtils.getDefaultClassLoader().getResource("static").getPath();
+        //String staticPath = null;
         try {
             staticPath = ResourceUtils.getURL("classpath:").getPath() + "static" + File.separator + "img" +File.separator;
         } catch (FileNotFoundException e) {

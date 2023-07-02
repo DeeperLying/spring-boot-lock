@@ -76,7 +76,7 @@ public class JWTUtils {
     }
 
     public Date expireDate() {
-        long time = 30 * 60 * 1000; // 过期时间
+        long time = 24 * 60 * 60 * 1000; // 过期时间
         Date now = new Date();
         Date afterDate = new Date(now.getTime() + time);
         return afterDate;

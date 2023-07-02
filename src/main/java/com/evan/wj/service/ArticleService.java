@@ -4,9 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.evan.wj.dao.ArticleDao;
 import com.evan.wj.dao.ArticleListDao;
 import com.evan.wj.pojo.Article;
-import com.evan.wj.pojo.ArticleList;
-import com.evan.wj.utils.MyException;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +20,10 @@ public class ArticleService {
         String author = article.getAuthor();
         String text = article.getText();
         String introduction = article.getIntroduction();
-            return articleDao.saveActicle(title, author, text, introduction);
+        String text_html = article.getText_html();
+        String banner = article.getBanner();
+        int user_id =article.getUserId();
+        return articleDao.saveActicle(title, author, text, introduction, text_html, user_id, banner);
     }
 
     public Article getArticle(int id) {
@@ -41,8 +41,17 @@ public class ArticleService {
             item.put("author", article.getAuthor());
             item.put("title", article.getTitle());
             item.put("introduction", article.getIntroduction());
+            item.put("text_html", article.getText_html());
+            item.put("user_id", article.getUserId());
+            item.put("create_time", article.getCreate_time());
+            item.put("banner", article.getBanner());
             result.add(item);
         }
         return result;
+    }
+
+    public List<Map> findByUserArticleList(int startIndex, int overIndex, int userId) {
+        List<Map> articleList =  articleDao.findByUserArticleList(userId, startIndex, overIndex);
+        return articleList;
     }
 }
