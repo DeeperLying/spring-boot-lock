@@ -31,14 +31,15 @@ public class InterceptorConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/api/register/phone")
                 .excludePathPatterns("/api/login/phone")
                 .excludePathPatterns("/api/login")
-                .excludePathPatterns("/img/*");
+                .excludePathPatterns("/img/**");
     }
 
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        /**
-         * 将/upload/**映射到file:D://upload
-         */
-        registry.addResourceHandler("/img/**").addResourceLocations("file:/media/images/");
-    }
+//    TODO 在本地我就直连服务器，本身springboot static目录就有映射，不需要在意端口号是否暴露。正是环境我也不需要通过这种方式映射因为同样会暴露真实端口号，我直接用Nginx代理
+//    @Override
+//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//        /**
+//         * 将/upload/**映射到file:D://upload
+//         */
+//        registry.addResourceHandler("/img/**").addResourceLocations("file:/media/images/");
+//    }
 }
