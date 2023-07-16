@@ -2,6 +2,7 @@ package com.evan.wj.controller.common;
 
 import com.alibaba.fastjson.JSON;
 import com.evan.wj.result.Result;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.ResourceUtils;
@@ -17,6 +18,9 @@ import java.util.Map;
 @Controller
 public class UpLoadController {
 
+    @Value("${spring.profiles.active}")
+    String env;
+
     @CrossOrigin(allowCredentials = "true")
     @PostMapping(value = "api/upLoad")
     // TODO @PostMapping(name = "api/upLoad") name属性会导致静态资源没办法访问
@@ -25,15 +29,21 @@ public class UpLoadController {
         if(file.isEmpty()) {
             return new Result(400, "请上传文件");
         }
+
         //总的路径
-//        String staticPath = ClassUtils.getDefaultClassLoader().getResource("static").getPath();
-//        //String staticPath = null;
-//        try {
-//            staticPath = ResourceUtils.getURL("classpath:").getPath() + "static" + File.separator + "img" +File.separator;
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-        String staticPath = "/media/images/";
+        String staticPath;
+        if (!env.isEmpty() && "dev".equals(env)) {
+            staticPath = ClassUtils.getDefaultClassLoader().getResource("static").getPath();
+            //String staticPath = null;
+            try {
+                staticPath = ResourceUtils.getURL("classpath:").getPath() + "static" + File.separator + "img" +File.separator;
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        } else {
+            staticPath = "/media/images/";
+        }
+
         System.out.println(staticPath);
         File temp = new File(staticPath);
         if (!temp.exists()){
