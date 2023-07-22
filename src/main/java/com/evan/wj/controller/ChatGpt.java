@@ -31,7 +31,7 @@ public class ChatGpt {
         String chatOpenId = request.getHeader("chatOpenId");
         System.out.println(chatOpenId + "============chat Id");
 
-        String result =  chatGptService.openChat(value);
+        String result =  chatGptService.openChat(value, chatOpenId);
         response.addHeader("Accept-Language", "en,zh-CN;q=0.9,zh;q=0.8");
         response.setHeader("Content-Type","application/json;charset=UTF-8");
         try {

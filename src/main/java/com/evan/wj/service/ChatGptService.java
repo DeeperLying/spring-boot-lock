@@ -37,10 +37,10 @@ public class ChatGptService {
     @Autowired
     RestTemplateConfig restTemplateConfig;
 
-    public String openChat(String value) {
+    public String openChat(String value, String chatId) {
         String baseUrl = "https://api.openai.com/v1/completions";
         MultiValueMap header = new LinkedMultiValueMap();
-        header.add("Authorization","Bearer " +OPENAPI_TOKEN);
+        header.add("Authorization","Bearer " +chatId);
         header.add("Content-Type","application/json");
 
         Map params = new HashMap<>();
