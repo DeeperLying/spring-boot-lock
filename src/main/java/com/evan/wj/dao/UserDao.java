@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.Map;
 
@@ -29,4 +31,9 @@ public interface UserDao extends JpaRepository<User, Integer> {
     @Modifying
     @Query(value = "INSERT INTO user(id, username, password, phone) VALUES(null, ?1, ?2, ?3)", nativeQuery = true)
     int savePhoneUser(@Param("username") String username,@Param("password") String password, @Param("phone") String phone);
+
+//    public void updateUserInfo() {
+//        @PersistenceContext
+//        private EntityManager entitymangager;
+//    }
 }

@@ -29,7 +29,6 @@ public class ChatGpt {
     @GetMapping(value = "/chat")
     public Result chat(@RequestParam(value = "value", required = true) String value, HttpServletResponse response, HttpServletRequest request) {
         String chatOpenId = request.getHeader("chatOpenId");
-        System.out.println(chatOpenId + "============chat Id");
 
         String result =  chatGptService.openChat(value, chatOpenId);
         response.addHeader("Accept-Language", "en,zh-CN;q=0.9,zh;q=0.8");

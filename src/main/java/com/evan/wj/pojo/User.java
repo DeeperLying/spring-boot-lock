@@ -19,6 +19,7 @@ public class User {
     String password;
     String email;
     String phone;
+    String headimgurl;
 
     @Transient
     String code;
