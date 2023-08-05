@@ -90,3 +90,18 @@ CREATE TABLE IF NOT EXISTS `article` (
    PRIMARY KEY (`id`),
    UNIQUE KEY `title` (`title`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='文章表单';$$$
+
+CREATE TABLE IF NOT EXISTS `comments` (
+    `id` int(4) NOT NULL AUTO_INCREMENT,
+    `user_id` int(4) NOT NULL COMMENT 'UserId',
+    `article_id` int(4) NOT NULL COMMENT 'articleId',
+    `parent_comment_id` INT(4) DEFAULT NULL COMMENT '父级评论ID',
+    `nickname` char(255) DEFAULT NULL COMMENT '昵称',
+    `avatar` char(255) DEFAULT NULL COMMENT '头像',
+    `content` CHAR(255) NOT NULL COMMENT '评论内容',
+    `like` SMALLINT(3) NOT NULL DEFAULT '0' COMMENT '点赞',
+    `Level` int(1) NOT NULL DEFAULT '0' COMMENT '评论层级',
+    `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='评论表';$$$
