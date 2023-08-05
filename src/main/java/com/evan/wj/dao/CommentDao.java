@@ -37,7 +37,7 @@ public class CommentDao {
     }
 
     public List getComments(int articleId) {
-        String sql = "SELECT `nickname`, `avatar`, `content`, `like`, `update_time`, `parent_comment_id` FROM `comments` WHERE `article_id` = :articleId";
+        String sql = "SELECT `nickname`, `avatar`, `content`, `like`, `update_time`, `parent_comment_id` FROM `comments` WHERE `article_id` = :articleId AND `parent_comment_id` is null";
         Query query =  entityManager.createNativeQuery(sql);
         query.setParameter("articleId", articleId);
         List<Object[]> rows = query.getResultList();
