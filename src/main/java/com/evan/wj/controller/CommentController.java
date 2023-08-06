@@ -23,8 +23,13 @@ public class CommentController {
     CommentService commentService;
 
     @PostMapping(value = "/save")
-    public void saveComment(@RequestBody Comment comment) {
-        commentService.saveComment(comment);
+    public Result saveComment(@RequestBody Comment comment) {
+        int isSave = commentService.saveComment(comment);
+        if (isSave == 1) {
+            return new Result(200);
+        } else {
+            return new Result(400);
+        }
     }
 
     @GetMapping(value = "/getComments")

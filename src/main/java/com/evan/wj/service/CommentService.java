@@ -17,8 +17,9 @@ public class CommentService {
     @Autowired
     CommentDao commentDao;
 
-    public void saveComment(Comment comment) {
-        commentDao.save(comment);
+    public int saveComment(Comment comment) {
+        int result = commentDao.save(comment);
+        return result;
     }
 
     public List<Map> getComments(int articleId) {

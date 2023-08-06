@@ -21,23 +21,42 @@ public class CommentDao {
     @PersistenceContext
     private EntityManager entityManager;
 
+//    @Transactional
+//    public void save(Comment comment) {
+//        String sql = "INSERT INTO `comments` (`user_id`,`article_id`,`nickname`,`avatar`,`content`,`Level`)" +
+//                " VALUE (:user_id, :article_id, :nickname, :avatar, :content, :level)";
+//        Query query =  entityManager.createNativeQuery(sql);
+//        query.setParameter("user_id", comment.getUser_id());
+//        query.setParameter("article_id", comment.getArticle_id());
+//        query.setParameter("nickname", comment.getNickname());
+//        query.setParameter("avatar", comment.getAvatar());
+//        query.setParameter("content", comment.getContent());
+//        query.setParameter("level", comment.getLevel());
+//        int result = query.executeUpdate();
+//        System.out.println(result);
+//    }
+
     @Transactional
-    public void save(Comment comment) {
-        String sql = "INSERT INTO `comments` (`user_id`,`article_id`,`nickname`,`avatar`,`content`,`Level`)" +
-                " VALUE (:user_id, :article_id, :nickname, :avatar, :content, :level)";
+    public int save(Comment comment) {
+        String sql = "INSERT INTO `comments` (`user_id`,`article_id`,`nickname`,`avatar`,`content`,`Level`, `parent_comment_id`)" +
+                " VALUE (:user_id, :article_id, :nickname, :avatar, :content," +
+                "CASE WHEN :parent_comment_id IS NOT NULL THEN 1 ELSE 0 END, " +
+                "CASE WHEN :parent_comment_id <> 0 THEN :parent_comment_id ELSE NULL END)";
         Query query =  entityManager.createNativeQuery(sql);
         query.setParameter("user_id", comment.getUser_id());
         query.setParameter("article_id", comment.getArticle_id());
         query.setParameter("nickname", comment.getNickname());
         query.setParameter("avatar", comment.getAvatar());
         query.setParameter("content", comment.getContent());
-        query.setParameter("level", comment.getLevel());
+        //query.setParameter("level", comment.getLevel());
+        query.setParameter("parent_comment_id", comment.getParent_comment_id());
         int result = query.executeUpdate();
         System.out.println(result);
+        return result;
     }
 
     public List getComments(int articleId) {
-        String sql = "SELECT `nickname`, `avatar`, `content`, `like`, `update_time`, `parent_comment_id` FROM `comments` WHERE `article_id` = :articleId AND `parent_comment_id` is null";
+        String sql = "SELECT `nickname`, `avatar`, `content`, `like`, `update_time`, `parent_comment_id`, `id` FROM `comments` WHERE `article_id` = :articleId AND `parent_comment_id` is null ORDER BY `create_time` DESC";
         Query query =  entityManager.createNativeQuery(sql);
         query.setParameter("articleId", articleId);
         List<Object[]> rows = query.getResultList();
@@ -51,6 +70,7 @@ public class CommentDao {
             comment.put("like", row[3]);
             comment.put("update_time", row[4]);
             comment.put("parent_comment_id", row[5]);
+            comment.put("id", row[6]);
             comments.add(comment);
         }
         System.out.println(comments);
