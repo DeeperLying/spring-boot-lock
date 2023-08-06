@@ -26,4 +26,9 @@ public class CommentService {
        List<Map> comments = commentDao.getComments(articleId);
        return comments;
     }
+
+    public List getCommentChildren(int commentId) {
+        List comments = commentDao.getCommentChildren(commentId);
+        return comments;
+    }
 }

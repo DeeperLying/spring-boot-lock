@@ -1,5 +1,6 @@
 package com.evan.wj.dao;
 
+import com.alibaba.fastjson.JSON;
 import com.evan.wj.pojo.Comment;
 import org.springframework.stereotype.Repository;
 
@@ -7,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -56,13 +58,46 @@ public class CommentDao {
     }
 
     public List getComments(int articleId) {
-        String sql = "SELECT `nickname`, `avatar`, `content`, `like`, `update_time`, `parent_comment_id`, `id` FROM `comments` WHERE `article_id` = :articleId AND `parent_comment_id` is null ORDER BY `create_time` DESC";
+        String sql = "SELECT `nickname`, `avatar`, `content`, `like`, `update_time`, `parent_comment_id`, `id`, CASE WHEN" +
+                " EXISTS(SELECT 1 FROM `comments` WHERE `parent_comment_id`=c.id) THEN true ELSE false END AS `has_children`" +
+                "FROM `comments` AS c WHERE `article_id` = :articleId AND `parent_comment_id` is null ORDER BY `create_time` DESC";
         Query query =  entityManager.createNativeQuery(sql);
         query.setParameter("articleId", articleId);
         List<Object[]> rows = query.getResultList();
         List<Map<String, Object>> comments = new ArrayList<>();
 
         for (Object[] row: rows) {
+            System.out.println(row[7] + "rows");
+            System.out.println(row[7] != null);
+            System.out.println(row[7].equals("1"));
+            System.out.println(row[7].equals(1));
+            System.out.println(row[7].getClass().getName());
+            System.out.println(row[7].equals(new BigInteger("1")));
+            Map<String, Object> comment = new HashMap<>();
+            comment.put("nickname", row[0]);
+            comment.put("avatar", row[1]);
+            comment.put("content", row[2]);
+            comment.put("like", row[3]);
+            comment.put("update_time", row[4]);
+            comment.put("parent_comment_id", row[5]);
+            comment.put("id", row[6]);
+            comment.put("has_children", (row[7] != null && row[7].equals(new BigInteger("1"))) ? true : false);
+            comments.add(comment);
+        }
+        System.out.println(comments);
+
+        return comments;
+    }
+
+    public List getCommentChildren(int commentId) {
+        String sql = "SELECT `nickname`, `avatar`, `content`, `like`, `update_time`, `parent_comment_id`, `id` FROM `comments` WHERE `parent_comment_id`= :parent_comment_id";
+        Query query =  entityManager.createNativeQuery(sql);
+        query.setParameter("parent_comment_id", commentId);
+        List<Object[]> rows = query.getResultList();
+        List<Map<String, Object>> comments = new ArrayList<>();
+
+        for(Object[] row: rows) {
+            System.out.println(JSON.toJSON(row) + "ppp");
             Map<String, Object> comment = new HashMap<>();
             comment.put("nickname", row[0]);
             comment.put("avatar", row[1]);
@@ -73,7 +108,6 @@ public class CommentDao {
             comment.put("id", row[6]);
             comments.add(comment);
         }
-        System.out.println(comments);
 
         return comments;
     }

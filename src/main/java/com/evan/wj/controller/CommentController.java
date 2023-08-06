@@ -38,4 +38,10 @@ public class CommentController {
         List<Map> comments = commentService.getComments(articleId);
         return new Result(200, comments);
     }
+
+    @GetMapping(value = "/getCommentChildren")
+    public Result getCommentChildren(@Param("commentId") int commentId) {
+        List comments = commentService.getCommentChildren(commentId);
+        return new Result(200, comments);
+    }
 }
