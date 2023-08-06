@@ -31,4 +31,9 @@ public class CommentService {
         List comments = commentDao.getCommentChildren(commentId);
         return comments;
     }
+
+    public int updateCommentLike(int commentId) {
+        int isSave = commentDao.updateLike(commentId);
+        return isSave;
+    }
 }

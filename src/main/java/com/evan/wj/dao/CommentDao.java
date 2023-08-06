@@ -3,6 +3,7 @@ package com.evan.wj.dao;
 import com.alibaba.fastjson.JSON;
 import com.evan.wj.pojo.Comment;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -110,5 +111,15 @@ public class CommentDao {
         }
 
         return comments;
+    }
+
+    @Transactional
+    public int updateLike(int commentId) {
+        String sql = "UPDATE `comments` SET `like` = `like` + 1 WHERE `id` = :commentId";
+        Query query =  entityManager.createNativeQuery(sql);
+        query.setParameter("commentId", commentId);
+        int result = query.executeUpdate();
+        System.out.println(result);
+        return result;
     }
 }

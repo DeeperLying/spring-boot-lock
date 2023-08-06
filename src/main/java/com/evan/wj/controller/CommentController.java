@@ -44,4 +44,16 @@ public class CommentController {
         List comments = commentService.getCommentChildren(commentId);
         return new Result(200, comments);
     }
+
+    @PostMapping(value = "/like")
+    public Result commentLike(@RequestBody Map<String, Object> requestMap) {
+        int commentId = (int) requestMap.get("commentId");
+        System.out.println(commentId +"in");
+        int isSave = commentService.updateCommentLike(commentId);
+        if (isSave == 1) {
+            return new Result(200);
+        } else {
+            return new Result(400);
+        }
+    }
 }
