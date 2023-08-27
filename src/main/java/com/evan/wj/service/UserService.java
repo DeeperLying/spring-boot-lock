@@ -1,7 +1,9 @@
 package com.evan.wj.service;
 
+import com.alibaba.fastjson.JSON;
 import com.evan.wj.dao.UserDao;
 import com.evan.wj.pojo.User;
+import com.evan.wj.utils.FirebaseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -13,8 +15,12 @@ import java.util.Map;
 public class UserService {
     @Autowired
     UserDao userDAO;
+
     @Autowired
     StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
+    FirebaseEntity firebaseEntity;
 
     public boolean isExist(String username) {
         User user = getByName(username);
@@ -55,5 +61,15 @@ public class UserService {
             }
         }
         return false;
+    }
+
+    public void getFirebaseToken(int userId) {
+       Map userMap =  userDAO.findUserFirebaseToken(userId);
+       System.out.println(JSON.toJSON(userMap) + ":ppppp");
+       String firebaseToken = (String) userMap.get("firebase_token");
+       if (!firebaseToken.isEmpty()) {
+            System.out.println("发送推送");
+           firebaseEntity.sendMessage(firebaseToken);
+       }
     }
 }

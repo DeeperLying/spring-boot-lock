@@ -113,3 +113,14 @@ begin
     END IF;
 end;$$$
 CALL myLee9();$$$
+
+drop procedure if exists myLee10;$$$
+create procedure myLee10()
+begin
+    IF(select 1 from information_schema.columns  where table_schema='white_jotter' and table_name='user' and column_name ='firebase_token') THEN
+        SELECT 'save';
+    ELSE
+        ALTER TABLE user ADD COLUMN firebase_token varchar(255) NOT NULL COMMENT "firebase_token";
+    END IF;
+end;$$$
+CALL myLee10();$$$

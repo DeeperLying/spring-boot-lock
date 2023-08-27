@@ -12,15 +12,14 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class FirebaseEntity {
-    String registrationToken = "fST4P1u3jCd52C5BweDg9V:APA91bFBaSVfWg-hpWw7U8A-f55xTlacunGuZZ6rxtTJly5W1SyXMQiyrLOsUi6F2Dy9aNuEvUhTJorZbc4WV2NWe4CRR-xClYETf2GduDmw-Q5S84lkOCMAe9FWmVlyhWyYfrPkhWCP";
 
-    public void sendMessage() {
+    public void sendMessage(String firebaseToken) {
         // This registration token comes from the client FCM SDKs.
 
         // See documentation on defining a message payload.
         Message message = Message.builder()
-                .setNotification(Notification.builder().setTitle("后端主动推送消息").setBody("快来看看啊后端发消息来啦").build())
-                .setToken(registrationToken)
+                .setNotification(Notification.builder().setTitle("快去看看吧").setBody("有人回复了您的评论").build())
+                .setToken(firebaseToken)
                 .build();
 
         // Send a message to the device corresponding to the provided

@@ -32,6 +32,14 @@ public interface UserDao extends JpaRepository<User, Integer> {
     @Query(value = "INSERT INTO user(id, username, password, phone) VALUES(null, ?1, ?2, ?3)", nativeQuery = true)
     int savePhoneUser(@Param("username") String username,@Param("password") String password, @Param("phone") String phone);
 
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE user set firebase_token = :firebaseToken WHERE id = :userId", nativeQuery = true)
+    int updateUserFirebaseToken(@Param("userId") int userId,@Param("firebaseToken") String firebaseToken);
+
+    @Query(value = "SELECT firebase_token FROM user WHERE id = :userId", nativeQuery = true)
+    Map findUserFirebaseToken(@Param("userId") int userId);
+
 //    public void updateUserInfo() {
 //        @PersistenceContext
 //        private EntityManager entitymangager;
